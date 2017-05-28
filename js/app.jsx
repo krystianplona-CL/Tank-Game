@@ -29,7 +29,7 @@ $(document).ready(()=>{
     let position = 0;
     for (var i = 0; i < 13; i++) {
       for (var j = 0; j < 13; j++) {
-        position = i+""+j;
+        position = i+","+j;
         let div = document.createElement("div");
         div.id = position;
         game.appendChild(div);
@@ -50,7 +50,7 @@ $(document).ready(()=>{
 
     }
     delBlock=()=>{
-      let div = document.getElementById(x+""+y);
+      let div = document.getElementById(x+","+y);
       div.removeChild(div.childNodes[0]);
       landMap[x][y] = LAND;
     }
@@ -58,7 +58,8 @@ $(document).ready(()=>{
 
   class Brick extends Block{
     constructor(x,y){
-      super(x,y)
+      super(x,y);
+      this.hp = 1;
     }
     createBlock=()=>{
       var brick = document.createElement('div');
@@ -69,7 +70,7 @@ $(document).ready(()=>{
       brick.style.left = (this.x) * this.width +"px";
       brick.style.top = (this.y) * this.height + "px";
 
-      document.getElementById(this.x+""+this.y).appendChild(brick);
+      document.getElementById(this.x+","+this.y).appendChild(brick);
     }
   }
 
@@ -85,13 +86,14 @@ $(document).ready(()=>{
       land.style.height = this.height+"px";
       land.style.left = (this.x) * this.width +"px";
       land.style.top = (this.y) * this.height + "px";
-      document.getElementById(this.x+""+this.y).appendChild(land);
+      document.getElementById(this.x+","+this.y).appendChild(land);
     }
   }
 
   class Eagle extends Block{
     constructor(x,y){
-      super(x,y)
+      super(x,y);
+      this.hp = 1;
     }
     createBlock=()=>{
       let eagle = document.createElement('div');
@@ -101,12 +103,13 @@ $(document).ready(()=>{
       eagle.style.height = this.height+"px";
       eagle.style.left = (this.x) * this.width +"px";
       eagle.style.top = (this.y) * this.height + "px";
-      document.getElementById(this.x+""+this.y).appendChild(eagle);
+      document.getElementById(this.x+","+this.y).appendChild(eagle);
     }
   }
   class HardBlock extends Block{
     constructor(x,y){
-      super(x,y)
+      super(x,y);
+      this.hp = 100;
     }
     createBlock=()=>{
       let harblock = document.createElement('div');
@@ -116,7 +119,7 @@ $(document).ready(()=>{
       harblock.style.height = this.height+"px";
       harblock.style.left = (this.x) * this.width +"px";
       harblock.style.top = (this.y) * this.height + "px";
-      document.getElementById(this.x+""+this.y).appendChild(harblock);
+      document.getElementById(this.x+","+this.y).appendChild(harblock);
     }
   }
 
@@ -127,6 +130,8 @@ $(document).ready(()=>{
       this.y = 12;
       this.positionX = 200;
       this.positionY = 600;
+      this.direction = "up";
+      this.dmg = 1;
     }
     createPlayer=()=>{
       let player = document.createElement('div');
@@ -140,17 +145,27 @@ $(document).ready(()=>{
       document.getElementById("player").appendChild(player);
     }
     checkCollision = (x,y) =>{
-      var blockType = map[x][y];
-      if(blockType == BRICK || blockType == BLOCK || blockType == WATER){
+      var blockType = document.getElementById(x+","+y).children[0].className;
+      if(blockType == "brick" || blockType == "block" || blockType == "water"){
         return false
       }
       else{
         return true
       }
     }
+    fireCheckCollision = (x,y) =>{
+      var blockType = document.getElementById(x+","+y).children[0].className;
+      if(blockType == "brick" || blockType == "block"){
+        return true
+      }
+      else{
+        return false
+      }
+    }
     /////////////////////////
     moveUp = () => {
-      var show = document.getElementById(this.x+""+(this.y-1));
+      this.direction = "up";
+      var show = document.getElementById(this.x+","+(this.y-1));
       if(this.checkCollision(this.x,this.y-1) && this.y > 0){
         let up = document.getElementById("player").children[0];
         up.style.top = (this.positionY - 50)+ "px";
@@ -160,7 +175,8 @@ $(document).ready(()=>{
     }
     //////////
     moveDown=() => {
-      var show = document.getElementById(this.x+""+(this.y+1));
+      this.direction = "down";
+      var show = document.getElementById(this.x+","+(this.y+1));
       if(this.checkCollision(this.x,this.y+1) && this.y < 12){
         let down = document.getElementById("player").children[0];
         down.style.top = (this.positionY + 50)+ "px";
@@ -170,7 +186,8 @@ $(document).ready(()=>{
     }
     ////////
     moveLeft = () => {
-      var show = document.getElementById((this.x-1)+""+this.y);
+      this.direction = "left";
+      var show = document.getElementById((this.x-1)+","+this.y);
       if(this.checkCollision(this.x-1,this.y) && this.x > 0){
         let left = document.getElementById("player").children[0];
         left.style.left = (this.positionX - 50)+ "px";
@@ -180,7 +197,8 @@ $(document).ready(()=>{
     }
     ////////
     moveRight=()=>{
-      var show = document.getElementById((this.x+1)+""+this.y);
+      this.direction = "right";
+      var show = document.getElementById((this.x+1)+","+this.y);
       if(this.checkCollision(this.x+1,this.y) && this.x < 12){
         let right = document.getElementById("player").children[0];
         right.style.left = (this.positionX + 50)+ "px";
@@ -203,6 +221,40 @@ $(document).ready(()=>{
         case 40:
           this.moveDown();
           break;
+        case 65:
+          this.fireTank();
+          break;
+      }
+    }
+    ///////
+    fireTank=()=>{
+      if(this.direction == "up"){
+        let dir = String((this.x)+","+(this.y-1));
+        var fire = document.getElementById(dir);
+        if(this.fireCheckCollision((this.x),this.y-1)){
+          fire.children[0].className = "land";
+        }
+      }
+      else if(this.direction == "down"){
+        let dir = String((this.x)+","+(this.y+1));
+        var fire = document.getElementById(dir);
+        if(this.fireCheckCollision((this.x),this.y+1)){
+          fire.children[0].className = "land";
+        }
+      }
+      else if(this.direction == "left"){
+        let dir = String((this.x-1)+","+(this.y));
+        var fire = document.getElementById(dir);
+        if(this.fireCheckCollision((this.x-1),this.y)){
+          fire.children[0].className = "land";
+        }
+      }
+      else if(this.direction == "right"){
+        let dir = String((this.x+1)+","+(this.y));
+        var fire = document.getElementById(dir);
+        if(this.fireCheckCollision((this.x+1),this.y)){
+          fire.children[0].className = "land";
+        }
       }
     }
   }
@@ -236,12 +288,13 @@ $(document).ready(()=>{
     }
   }
 
+  loadMap();
+
   var myTank = new Player();
   myTank.createPlayer();
 
-
-  loadMap();
   $(document).on("keydown", (event)=>{
     myTank.moveTank(event);
   })
+
 })

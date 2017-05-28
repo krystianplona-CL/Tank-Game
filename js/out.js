@@ -96,7 +96,7 @@ $(document).ready(function () {
     var position = 0;
     for (var i = 0; i < 13; i++) {
       for (var j = 0; j < 13; j++) {
-        position = i + "" + j;
+        position = i + "," + j;
         var div = document.createElement("div");
         div.id = position;
         game.appendChild(div);
@@ -121,7 +121,7 @@ $(document).ready(function () {
     this.createBlock = function () {};
 
     this.delBlock = function () {
-      var div = document.getElementById(x + "" + y);
+      var div = document.getElementById(x + "," + y);
       div.removeChild(div.childNodes[0]);
       landMap[x][y] = LAND;
     };
@@ -144,9 +144,10 @@ $(document).ready(function () {
         brick.style.left = _this.x * _this.width + "px";
         brick.style.top = _this.y * _this.height + "px";
 
-        document.getElementById(_this.x + "" + _this.y).appendChild(brick);
+        document.getElementById(_this.x + "," + _this.y).appendChild(brick);
       };
 
+      _this.hp = 1;
       return _this;
     }
 
@@ -169,7 +170,7 @@ $(document).ready(function () {
         land.style.height = _this2.height + "px";
         land.style.left = _this2.x * _this2.width + "px";
         land.style.top = _this2.y * _this2.height + "px";
-        document.getElementById(_this2.x + "" + _this2.y).appendChild(land);
+        document.getElementById(_this2.x + "," + _this2.y).appendChild(land);
       };
 
       return _this2;
@@ -194,9 +195,10 @@ $(document).ready(function () {
         eagle.style.height = _this3.height + "px";
         eagle.style.left = _this3.x * _this3.width + "px";
         eagle.style.top = _this3.y * _this3.height + "px";
-        document.getElementById(_this3.x + "" + _this3.y).appendChild(eagle);
+        document.getElementById(_this3.x + "," + _this3.y).appendChild(eagle);
       };
 
+      _this3.hp = 1;
       return _this3;
     }
 
@@ -219,9 +221,10 @@ $(document).ready(function () {
         harblock.style.height = _this4.height + "px";
         harblock.style.left = _this4.x * _this4.width + "px";
         harblock.style.top = _this4.y * _this4.height + "px";
-        document.getElementById(_this4.x + "" + _this4.y).appendChild(harblock);
+        document.getElementById(_this4.x + "," + _this4.y).appendChild(harblock);
       };
 
+      _this4.hp = 100;
       return _this4;
     }
 
@@ -249,16 +252,26 @@ $(document).ready(function () {
       };
 
       _this5.checkCollision = function (x, y) {
-        var blockType = map[x][y];
-        if (blockType == BRICK || blockType == BLOCK || blockType == WATER) {
+        var blockType = document.getElementById(x + "," + y).children[0].className;
+        if (blockType == "brick" || blockType == "block" || blockType == "water") {
           return false;
         } else {
           return true;
         }
       };
 
+      _this5.fireCheckCollision = function (x, y) {
+        var blockType = document.getElementById(x + "," + y).children[0].className;
+        if (blockType == "brick" || blockType == "block") {
+          return true;
+        } else {
+          return false;
+        }
+      };
+
       _this5.moveUp = function () {
-        var show = document.getElementById(_this5.x + "" + (_this5.y - 1));
+        _this5.direction = "up";
+        var show = document.getElementById(_this5.x + "," + (_this5.y - 1));
         if (_this5.checkCollision(_this5.x, _this5.y - 1) && _this5.y > 0) {
           var up = document.getElementById("player").children[0];
           up.style.top = _this5.positionY - 50 + "px";
@@ -268,7 +281,8 @@ $(document).ready(function () {
       };
 
       _this5.moveDown = function () {
-        var show = document.getElementById(_this5.x + "" + (_this5.y + 1));
+        _this5.direction = "down";
+        var show = document.getElementById(_this5.x + "," + (_this5.y + 1));
         if (_this5.checkCollision(_this5.x, _this5.y + 1) && _this5.y < 12) {
           var down = document.getElementById("player").children[0];
           down.style.top = _this5.positionY + 50 + "px";
@@ -278,7 +292,8 @@ $(document).ready(function () {
       };
 
       _this5.moveLeft = function () {
-        var show = document.getElementById(_this5.x - 1 + "" + _this5.y);
+        _this5.direction = "left";
+        var show = document.getElementById(_this5.x - 1 + "," + _this5.y);
         if (_this5.checkCollision(_this5.x - 1, _this5.y) && _this5.x > 0) {
           var left = document.getElementById("player").children[0];
           left.style.left = _this5.positionX - 50 + "px";
@@ -288,7 +303,8 @@ $(document).ready(function () {
       };
 
       _this5.moveRight = function () {
-        var show = document.getElementById(_this5.x + 1 + "" + _this5.y);
+        _this5.direction = "right";
+        var show = document.getElementById(_this5.x + 1 + "," + _this5.y);
         if (_this5.checkCollision(_this5.x + 1, _this5.y) && _this5.x < 12) {
           var right = document.getElementById("player").children[0];
           right.style.left = _this5.positionX + 50 + "px";
@@ -311,6 +327,37 @@ $(document).ready(function () {
           case 40:
             _this5.moveDown();
             break;
+          case 65:
+            _this5.fireTank();
+            break;
+        }
+      };
+
+      _this5.fireTank = function () {
+        if (_this5.direction == "up") {
+          var dir = String(_this5.x + "," + (_this5.y - 1));
+          var fire = document.getElementById(dir);
+          if (_this5.fireCheckCollision(_this5.x, _this5.y - 1)) {
+            fire.children[0].className = "land";
+          }
+        } else if (_this5.direction == "down") {
+          var _dir = String(_this5.x + "," + (_this5.y + 1));
+          var fire = document.getElementById(_dir);
+          if (_this5.fireCheckCollision(_this5.x, _this5.y + 1)) {
+            fire.children[0].className = "land";
+          }
+        } else if (_this5.direction == "left") {
+          var _dir2 = String(_this5.x - 1 + "," + _this5.y);
+          var fire = document.getElementById(_dir2);
+          if (_this5.fireCheckCollision(_this5.x - 1, _this5.y)) {
+            fire.children[0].className = "land";
+          }
+        } else if (_this5.direction == "right") {
+          var _dir3 = String(_this5.x + 1 + "," + _this5.y);
+          var fire = document.getElementById(_dir3);
+          if (_this5.fireCheckCollision(_this5.x + 1, _this5.y)) {
+            fire.children[0].className = "land";
+          }
         }
       };
 
@@ -318,6 +365,8 @@ $(document).ready(function () {
       _this5.y = 12;
       _this5.positionX = 200;
       _this5.positionY = 600;
+      _this5.direction = "up";
+      _this5.dmg = 1;
       return _this5;
     }
     /////////////////////////
@@ -327,6 +376,8 @@ $(document).ready(function () {
     ////////
 
     ////////
+
+    ///////
 
     ///////
 
@@ -363,10 +414,11 @@ $(document).ready(function () {
     }
   }
 
+  loadMap();
+
   var myTank = new Player();
   myTank.createPlayer();
 
-  loadMap();
   $(document).on("keydown", function (event) {
     myTank.moveTank(event);
   });
