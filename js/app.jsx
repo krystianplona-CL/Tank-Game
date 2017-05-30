@@ -25,6 +25,8 @@ $(document).ready(()=>{
     [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND]
   ];
 
+  var counter = 1;
+
   function showMap(){
     let position = 0;
     for (var i = 0; i < 13; i++) {
@@ -69,6 +71,7 @@ $(document).ready(()=>{
       brick.style.height = this.height+"px";
       brick.style.left = (this.x) * this.width +"px";
       brick.style.top = (this.y) * this.height + "px";
+      brick.dataset.hp = this.hp;
 
       document.getElementById(this.x+","+this.y).appendChild(brick);
     }
@@ -120,6 +123,7 @@ $(document).ready(()=>{
       harblock.style.height = this.height+"px";
       harblock.style.left = (this.x) * this.width +"px";
       harblock.style.top = (this.y) * this.height + "px";
+      harblock.dataset.hp = this.hp;
       document.getElementById(this.x+","+this.y).appendChild(harblock);
     }
   }
@@ -156,6 +160,23 @@ $(document).ready(()=>{
     }
   }
 
+  class Bullet extends Block{
+    constructor(x,y){
+      super(x,y);
+    }
+    createBullet=()=>{
+      let bullet = document.createElement('div');
+      bullet.className = "boom";
+      bullet.style.position = "absolute";
+      bullet.style.width = this.width+"px";
+      bullet.style.height = this.height+"px";
+      bullet.style.left = (this.x) * this.width +"px";
+      bullet.style.top = (this.y) * this.height + "px";
+      document.getElementById("bullet").appendChild(bullet);
+    }
+
+  }
+
   class Player extends Block{
     constructor(){
       super();
@@ -165,6 +186,7 @@ $(document).ready(()=>{
       this.positionY = 600;
       this.direction = "up";
       this.dmg = 1;
+      this.fireBool = true;
     }
     createPlayer=()=>{
       let player = document.createElement('div');
@@ -188,11 +210,14 @@ $(document).ready(()=>{
     }
     fireCheckCollision = (x,y) =>{
       var blockType = document.getElementById(x+","+y).children[0].className;
-      if(blockType == "brick" || blockType == "eagle"){
+      var data = Number(document.getElementById(x+","+y).children[0].dataset.hp);
+      if(blockType == "brick" || blockType == "eagle" || blockType == "block"){
+
+        return true;
+
         if(blockType == "eagle"){
           this.gameOver();
         }
-        return true
       }
       else{
         return false
@@ -285,6 +310,43 @@ $(document).ready(()=>{
         var fire = document.getElementById(dir);
         if(this.fireCheckCollision((this.x),this.y-1)){
           fire.children[0].className = "land";
+        }
+        else {
+          if(this.fireBool){
+            this.fireBool = false;
+            let bul = new Bullet((this.x),this.y-1);
+            bul.createBullet();
+            let bullet = document.getElementById("bullet").children[0];
+            this.interval = setInterval(()=>{
+              bullet.style.left = (bul.x) * 50 +"px";
+              bullet.style.top = (bul.y-1) * 50 + "px";
+              bul.y = bul.y - 1;
+              if(bul.y >=0){
+                let div = document.getElementById(bul.x+","+bul.y)
+                if(this.fireCheckCollision(bul.x, bul.y)){
+                  var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
+                  console.log(checkdmg);
+                  if(checkdmg == "block"){
+                    bullet.parentNode.innerHTML = "";
+                    this.fireBool = true;
+                    clearInterval(this.interval);
+                  }
+                  else{
+                    document.getElementById(bul.x+","+bul.y).children[0].className = "land";
+                    bullet.parentNode.innerHTML = "";
+                    this.fireBool = true;
+                    clearInterval(this.interval);
+                  }
+                }
+                else{
+                }
+              }
+              else{
+                clearInterval(this.interval);
+                this.fireBool = true;
+              }
+            },250)
+          }
         }
       }
       else if(this.direction == "down"){

@@ -92,6 +92,8 @@ $(document).ready(function () {
 
   var map = [[LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, WATER, LAND, LAND, LAND, BLOCK, LAND, BLOCK, LAND, LAND, LAND, BRICK, EAGLE], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, GREEN, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND]];
 
+  var counter = 1;
+
   function showMap() {
     var position = 0;
     for (var i = 0; i < 13; i++) {
@@ -143,6 +145,7 @@ $(document).ready(function () {
         brick.style.height = _this.height + "px";
         brick.style.left = _this.x * _this.width + "px";
         brick.style.top = _this.y * _this.height + "px";
+        brick.dataset.hp = _this.hp;
 
         document.getElementById(_this.x + "," + _this.y).appendChild(brick);
       };
@@ -221,6 +224,7 @@ $(document).ready(function () {
         harblock.style.height = _this4.height + "px";
         harblock.style.left = _this4.x * _this4.width + "px";
         harblock.style.top = _this4.y * _this4.height + "px";
+        harblock.dataset.hp = _this4.hp;
         document.getElementById(_this4.x + "," + _this4.y).appendChild(harblock);
       };
 
@@ -281,27 +285,52 @@ $(document).ready(function () {
     return Green;
   }(Block);
 
-  var Player = function (_Block7) {
-    _inherits(Player, _Block7);
+  var Bullet = function (_Block7) {
+    _inherits(Bullet, _Block7);
+
+    function Bullet(x, y) {
+      _classCallCheck(this, Bullet);
+
+      var _this7 = _possibleConstructorReturn(this, (Bullet.__proto__ || Object.getPrototypeOf(Bullet)).call(this, x, y));
+
+      _this7.createBullet = function () {
+        var bullet = document.createElement('div');
+        bullet.className = "boom";
+        bullet.style.position = "absolute";
+        bullet.style.width = _this7.width + "px";
+        bullet.style.height = _this7.height + "px";
+        bullet.style.left = _this7.x * _this7.width + "px";
+        bullet.style.top = _this7.y * _this7.height + "px";
+        document.getElementById("bullet").appendChild(bullet);
+      };
+
+      return _this7;
+    }
+
+    return Bullet;
+  }(Block);
+
+  var Player = function (_Block8) {
+    _inherits(Player, _Block8);
 
     function Player() {
       _classCallCheck(this, Player);
 
-      var _this7 = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this));
+      var _this8 = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this));
 
-      _this7.createPlayer = function () {
+      _this8.createPlayer = function () {
         var player = document.createElement('div');
         player.className = "myTank";
         player.style.position = "absolute";
-        player.style.width = _this7.width + "px";
-        player.style.height = _this7.height + "px";
+        player.style.width = _this8.width + "px";
+        player.style.height = _this8.height + "px";
         player.style.left = 200 + "px";
         player.style.top = 600 + "px";
         player.style.zIndex = 1;
         document.getElementById("player").appendChild(player);
       };
 
-      _this7.checkCollision = function (x, y) {
+      _this8.checkCollision = function (x, y) {
         var blockType = document.getElementById(x + "," + y).children[0].className;
         if (blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water") {
           return false;
@@ -310,19 +339,22 @@ $(document).ready(function () {
         }
       };
 
-      _this7.fireCheckCollision = function (x, y) {
+      _this8.fireCheckCollision = function (x, y) {
         var blockType = document.getElementById(x + "," + y).children[0].className;
-        if (blockType == "brick" || blockType == "eagle") {
-          if (blockType == "eagle") {
-            _this7.gameOver();
-          }
+        var data = Number(document.getElementById(x + "," + y).children[0].dataset.hp);
+        if (blockType == "brick" || blockType == "eagle" || blockType == "block") {
+
           return true;
+
+          if (blockType == "eagle") {
+            _this8.gameOver();
+          }
         } else {
           return false;
         }
       };
 
-      _this7.gameOver = function () {
+      _this8.gameOver = function () {
         var over = document.createElement("div");
         over.className = "gameOver";
         over.innerText = "GAME OVER";
@@ -330,113 +362,146 @@ $(document).ready(function () {
         game.appendChild(over);
       };
 
-      _this7.moveUp = function () {
-        _this7.direction = "up";
-        var show = document.getElementById(_this7.x + "," + (_this7.y - 1));
+      _this8.moveUp = function () {
+        _this8.direction = "up";
+        var show = document.getElementById(_this8.x + "," + (_this8.y - 1));
         var up = document.getElementById("player").children[0];
         up.style.transform = 'rotate(' + 0 + 'deg)';
-        if (_this7.checkCollision(_this7.x, _this7.y - 1) && _this7.y > 0) {
+        if (_this8.checkCollision(_this8.x, _this8.y - 1) && _this8.y > 0) {
           var _up = document.getElementById("player").children[0];
-          _up.style.top = _this7.positionY - 50 + "px";
-          _this7.positionY -= 50;
-          _this7.y -= 1;
+          _up.style.top = _this8.positionY - 50 + "px";
+          _this8.positionY -= 50;
+          _this8.y -= 1;
         }
       };
 
-      _this7.moveDown = function () {
-        _this7.direction = "down";
+      _this8.moveDown = function () {
+        _this8.direction = "down";
         var up = document.getElementById("player").children[0];
         up.style.transform = 'rotate(' + 180 + 'deg)';
-        var show = document.getElementById(_this7.x + "," + (_this7.y + 1));
-        if (_this7.checkCollision(_this7.x, _this7.y + 1) && _this7.y < 12) {
+        var show = document.getElementById(_this8.x + "," + (_this8.y + 1));
+        if (_this8.checkCollision(_this8.x, _this8.y + 1) && _this8.y < 12) {
           var down = document.getElementById("player").children[0];
-          down.style.top = _this7.positionY + 50 + "px";
-          _this7.positionY += 50;
-          _this7.y += 1;
+          down.style.top = _this8.positionY + 50 + "px";
+          _this8.positionY += 50;
+          _this8.y += 1;
         }
       };
 
-      _this7.moveLeft = function () {
-        _this7.direction = "left";
-        var show = document.getElementById(_this7.x - 1 + "," + _this7.y);
+      _this8.moveLeft = function () {
+        _this8.direction = "left";
+        var show = document.getElementById(_this8.x - 1 + "," + _this8.y);
         var up = document.getElementById("player").children[0];
         up.style.transform = 'rotate(' + 270 + 'deg)';
-        if (_this7.checkCollision(_this7.x - 1, _this7.y) && _this7.x > 0) {
+        if (_this8.checkCollision(_this8.x - 1, _this8.y) && _this8.x > 0) {
           var left = document.getElementById("player").children[0];
-          left.style.left = _this7.positionX - 50 + "px";
-          _this7.positionX -= 50;
-          _this7.x -= 1;
+          left.style.left = _this8.positionX - 50 + "px";
+          _this8.positionX -= 50;
+          _this8.x -= 1;
         }
       };
 
-      _this7.moveRight = function () {
-        _this7.direction = "right";
-        var show = document.getElementById(_this7.x + 1 + "," + _this7.y);
+      _this8.moveRight = function () {
+        _this8.direction = "right";
+        var show = document.getElementById(_this8.x + 1 + "," + _this8.y);
         var up = document.getElementById("player").children[0];
         up.style.transform = 'rotate(' + 90 + 'deg)';
-        if (_this7.checkCollision(_this7.x + 1, _this7.y) && _this7.x < 12) {
+        if (_this8.checkCollision(_this8.x + 1, _this8.y) && _this8.x < 12) {
           var right = document.getElementById("player").children[0];
-          right.style.left = _this7.positionX + 50 + "px";
-          _this7.positionX += 50;
-          _this7.x += 1;
+          right.style.left = _this8.positionX + 50 + "px";
+          _this8.positionX += 50;
+          _this8.x += 1;
         }
       };
 
-      _this7.moveTank = function (event) {
+      _this8.moveTank = function (event) {
         switch (event.which) {
           case 37:
-            _this7.moveLeft();
+            _this8.moveLeft();
             break;
           case 38:
-            _this7.moveUp();
+            _this8.moveUp();
             break;
           case 39:
-            _this7.moveRight();
+            _this8.moveRight();
             break;
           case 40:
-            _this7.moveDown();
+            _this8.moveDown();
             break;
           case 65:
-            _this7.fireTank();
+            _this8.fireTank();
             break;
         }
       };
 
-      _this7.fireTank = function () {
-        if (_this7.direction == "up") {
-          var dir = String(_this7.x + "," + (_this7.y - 1));
+      _this8.fireTank = function () {
+        if (_this8.direction == "up") {
+          var dir = String(_this8.x + "," + (_this8.y - 1));
           var fire = document.getElementById(dir);
-          if (_this7.fireCheckCollision(_this7.x, _this7.y - 1)) {
+          if (_this8.fireCheckCollision(_this8.x, _this8.y - 1)) {
             fire.children[0].className = "land";
+          } else {
+            if (_this8.fireBool) {
+              _this8.fireBool = false;
+              var bul = new Bullet(_this8.x, _this8.y - 1);
+              bul.createBullet();
+              var bullet = document.getElementById("bullet").children[0];
+              _this8.interval = setInterval(function () {
+                bullet.style.left = bul.x * 50 + "px";
+                bullet.style.top = (bul.y - 1) * 50 + "px";
+                bul.y = bul.y - 1;
+                if (bul.y >= 0) {
+                  var div = document.getElementById(bul.x + "," + bul.y);
+                  if (_this8.fireCheckCollision(bul.x, bul.y)) {
+                    var checkdmg = document.getElementById(bul.x + "," + bul.y).children[0].className;
+                    console.log(checkdmg);
+                    if (checkdmg == "block") {
+                      bullet.parentNode.innerHTML = "";
+                      _this8.fireBool = true;
+                      clearInterval(_this8.interval);
+                    } else {
+                      document.getElementById(bul.x + "," + bul.y).children[0].className = "land";
+                      bullet.parentNode.innerHTML = "";
+                      _this8.fireBool = true;
+                      clearInterval(_this8.interval);
+                    }
+                  } else {}
+                } else {
+                  clearInterval(_this8.interval);
+                  _this8.fireBool = true;
+                }
+              }, 250);
+            }
           }
-        } else if (_this7.direction == "down") {
-          var _dir = String(_this7.x + "," + (_this7.y + 1));
+        } else if (_this8.direction == "down") {
+          var _dir = String(_this8.x + "," + (_this8.y + 1));
           var fire = document.getElementById(_dir);
-          if (_this7.fireCheckCollision(_this7.x, _this7.y + 1)) {
+          if (_this8.fireCheckCollision(_this8.x, _this8.y + 1)) {
             fire.children[0].className = "land";
           }
-        } else if (_this7.direction == "left") {
-          var _dir2 = String(_this7.x - 1 + "," + _this7.y);
+        } else if (_this8.direction == "left") {
+          var _dir2 = String(_this8.x - 1 + "," + _this8.y);
           var fire = document.getElementById(_dir2);
-          if (_this7.fireCheckCollision(_this7.x - 1, _this7.y)) {
+          if (_this8.fireCheckCollision(_this8.x - 1, _this8.y)) {
             fire.children[0].className = "land";
           }
-        } else if (_this7.direction == "right") {
-          var _dir3 = String(_this7.x + 1 + "," + _this7.y);
+        } else if (_this8.direction == "right") {
+          var _dir3 = String(_this8.x + 1 + "," + _this8.y);
           var fire = document.getElementById(_dir3);
-          if (_this7.fireCheckCollision(_this7.x + 1, _this7.y)) {
+          if (_this8.fireCheckCollision(_this8.x + 1, _this8.y)) {
             fire.children[0].className = "land";
           }
         }
       };
 
-      _this7.x = 4;
-      _this7.y = 12;
-      _this7.positionX = 200;
-      _this7.positionY = 600;
-      _this7.direction = "up";
-      _this7.dmg = 1;
-      return _this7;
+      _this8.x = 4;
+      _this8.y = 12;
+      _this8.positionX = 200;
+      _this8.positionY = 600;
+      _this8.direction = "up";
+      _this8.dmg = 1;
+      _this8.fireBool = true;
+      return _this8;
     }
     /////////////////////////
 
