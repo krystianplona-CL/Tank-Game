@@ -90,7 +90,7 @@ $(document).ready(function () {
 
   var game = document.querySelector(".game");
 
-  var map = [[LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, BLOCK, LAND, BLOCK, LAND, LAND, LAND, BRICK, EAGLE], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND]];
+  var map = [[LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, WATER, LAND, LAND, LAND, BLOCK, LAND, BLOCK, LAND, LAND, LAND, BRICK, EAGLE], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, GREEN, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND]];
 
   function showMap() {
     var position = 0;
@@ -231,144 +231,215 @@ $(document).ready(function () {
     return HardBlock;
   }(Block);
 
-  var Player = function (_Block5) {
-    _inherits(Player, _Block5);
+  var Water = function (_Block5) {
+    _inherits(Water, _Block5);
+
+    function Water(x, y) {
+      _classCallCheck(this, Water);
+
+      var _this5 = _possibleConstructorReturn(this, (Water.__proto__ || Object.getPrototypeOf(Water)).call(this, x, y));
+
+      _this5.createBlock = function () {
+        var water = document.createElement('div');
+        water.className = "water";
+        water.style.position = "absolute";
+        water.style.width = _this5.width + "px";
+        water.style.height = _this5.height + "px";
+        water.style.left = _this5.x * _this5.width + "px";
+        water.style.top = _this5.y * _this5.height + "px";
+        document.getElementById(_this5.x + "," + _this5.y).appendChild(water);
+      };
+
+      return _this5;
+    }
+
+    return Water;
+  }(Block);
+
+  var Green = function (_Block6) {
+    _inherits(Green, _Block6);
+
+    function Green(x, y) {
+      _classCallCheck(this, Green);
+
+      var _this6 = _possibleConstructorReturn(this, (Green.__proto__ || Object.getPrototypeOf(Green)).call(this, x, y));
+
+      _this6.createBlock = function () {
+        var grass = document.createElement('div');
+        grass.className = "green";
+        grass.style.position = "absolute";
+        grass.style.width = _this6.width + "px";
+        grass.style.height = _this6.height + "px";
+        grass.style.left = _this6.x * _this6.width + "px";
+        grass.style.top = _this6.y * _this6.height + "px";
+        document.getElementById(_this6.x + "," + _this6.y).appendChild(grass);
+      };
+
+      return _this6;
+    }
+
+    return Green;
+  }(Block);
+
+  var Player = function (_Block7) {
+    _inherits(Player, _Block7);
 
     function Player() {
       _classCallCheck(this, Player);
 
-      var _this5 = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this));
+      var _this7 = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this));
 
-      _this5.createPlayer = function () {
+      _this7.createPlayer = function () {
         var player = document.createElement('div');
         player.className = "myTank";
         player.style.position = "absolute";
-        player.style.width = _this5.width + "px";
-        player.style.height = _this5.height + "px";
+        player.style.width = _this7.width + "px";
+        player.style.height = _this7.height + "px";
         player.style.left = 200 + "px";
         player.style.top = 600 + "px";
         player.style.zIndex = 1;
         document.getElementById("player").appendChild(player);
       };
 
-      _this5.checkCollision = function (x, y) {
+      _this7.checkCollision = function (x, y) {
         var blockType = document.getElementById(x + "," + y).children[0].className;
-        if (blockType == "brick" || blockType == "block" || blockType == "water") {
+        if (blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water") {
           return false;
         } else {
           return true;
         }
       };
 
-      _this5.fireCheckCollision = function (x, y) {
+      _this7.fireCheckCollision = function (x, y) {
         var blockType = document.getElementById(x + "," + y).children[0].className;
-        if (blockType == "brick" || blockType == "block") {
+        if (blockType == "brick" || blockType == "eagle") {
+          if (blockType == "eagle") {
+            _this7.gameOver();
+          }
           return true;
         } else {
           return false;
         }
       };
 
-      _this5.moveUp = function () {
-        _this5.direction = "up";
-        var show = document.getElementById(_this5.x + "," + (_this5.y - 1));
-        if (_this5.checkCollision(_this5.x, _this5.y - 1) && _this5.y > 0) {
-          var up = document.getElementById("player").children[0];
-          up.style.top = _this5.positionY - 50 + "px";
-          _this5.positionY -= 50;
-          _this5.y -= 1;
+      _this7.gameOver = function () {
+        var over = document.createElement("div");
+        over.className = "gameOver";
+        over.innerText = "GAME OVER";
+        game.innerHTML = "";
+        game.appendChild(over);
+      };
+
+      _this7.moveUp = function () {
+        _this7.direction = "up";
+        var show = document.getElementById(_this7.x + "," + (_this7.y - 1));
+        var up = document.getElementById("player").children[0];
+        up.style.transform = 'rotate(' + 0 + 'deg)';
+        if (_this7.checkCollision(_this7.x, _this7.y - 1) && _this7.y > 0) {
+          var _up = document.getElementById("player").children[0];
+          _up.style.top = _this7.positionY - 50 + "px";
+          _this7.positionY -= 50;
+          _this7.y -= 1;
         }
       };
 
-      _this5.moveDown = function () {
-        _this5.direction = "down";
-        var show = document.getElementById(_this5.x + "," + (_this5.y + 1));
-        if (_this5.checkCollision(_this5.x, _this5.y + 1) && _this5.y < 12) {
+      _this7.moveDown = function () {
+        _this7.direction = "down";
+        var up = document.getElementById("player").children[0];
+        up.style.transform = 'rotate(' + 180 + 'deg)';
+        var show = document.getElementById(_this7.x + "," + (_this7.y + 1));
+        if (_this7.checkCollision(_this7.x, _this7.y + 1) && _this7.y < 12) {
           var down = document.getElementById("player").children[0];
-          down.style.top = _this5.positionY + 50 + "px";
-          _this5.positionY += 50;
-          _this5.y += 1;
+          down.style.top = _this7.positionY + 50 + "px";
+          _this7.positionY += 50;
+          _this7.y += 1;
         }
       };
 
-      _this5.moveLeft = function () {
-        _this5.direction = "left";
-        var show = document.getElementById(_this5.x - 1 + "," + _this5.y);
-        if (_this5.checkCollision(_this5.x - 1, _this5.y) && _this5.x > 0) {
+      _this7.moveLeft = function () {
+        _this7.direction = "left";
+        var show = document.getElementById(_this7.x - 1 + "," + _this7.y);
+        var up = document.getElementById("player").children[0];
+        up.style.transform = 'rotate(' + 270 + 'deg)';
+        if (_this7.checkCollision(_this7.x - 1, _this7.y) && _this7.x > 0) {
           var left = document.getElementById("player").children[0];
-          left.style.left = _this5.positionX - 50 + "px";
-          _this5.positionX -= 50;
-          _this5.x -= 1;
+          left.style.left = _this7.positionX - 50 + "px";
+          _this7.positionX -= 50;
+          _this7.x -= 1;
         }
       };
 
-      _this5.moveRight = function () {
-        _this5.direction = "right";
-        var show = document.getElementById(_this5.x + 1 + "," + _this5.y);
-        if (_this5.checkCollision(_this5.x + 1, _this5.y) && _this5.x < 12) {
+      _this7.moveRight = function () {
+        _this7.direction = "right";
+        var show = document.getElementById(_this7.x + 1 + "," + _this7.y);
+        var up = document.getElementById("player").children[0];
+        up.style.transform = 'rotate(' + 90 + 'deg)';
+        if (_this7.checkCollision(_this7.x + 1, _this7.y) && _this7.x < 12) {
           var right = document.getElementById("player").children[0];
-          right.style.left = _this5.positionX + 50 + "px";
-          _this5.positionX += 50;
-          _this5.x += 1;
+          right.style.left = _this7.positionX + 50 + "px";
+          _this7.positionX += 50;
+          _this7.x += 1;
         }
       };
 
-      _this5.moveTank = function (event) {
+      _this7.moveTank = function (event) {
         switch (event.which) {
           case 37:
-            _this5.moveLeft();
+            _this7.moveLeft();
             break;
           case 38:
-            _this5.moveUp();
+            _this7.moveUp();
             break;
           case 39:
-            _this5.moveRight();
+            _this7.moveRight();
             break;
           case 40:
-            _this5.moveDown();
+            _this7.moveDown();
             break;
           case 65:
-            _this5.fireTank();
+            _this7.fireTank();
             break;
         }
       };
 
-      _this5.fireTank = function () {
-        if (_this5.direction == "up") {
-          var dir = String(_this5.x + "," + (_this5.y - 1));
+      _this7.fireTank = function () {
+        if (_this7.direction == "up") {
+          var dir = String(_this7.x + "," + (_this7.y - 1));
           var fire = document.getElementById(dir);
-          if (_this5.fireCheckCollision(_this5.x, _this5.y - 1)) {
+          if (_this7.fireCheckCollision(_this7.x, _this7.y - 1)) {
             fire.children[0].className = "land";
           }
-        } else if (_this5.direction == "down") {
-          var _dir = String(_this5.x + "," + (_this5.y + 1));
+        } else if (_this7.direction == "down") {
+          var _dir = String(_this7.x + "," + (_this7.y + 1));
           var fire = document.getElementById(_dir);
-          if (_this5.fireCheckCollision(_this5.x, _this5.y + 1)) {
+          if (_this7.fireCheckCollision(_this7.x, _this7.y + 1)) {
             fire.children[0].className = "land";
           }
-        } else if (_this5.direction == "left") {
-          var _dir2 = String(_this5.x - 1 + "," + _this5.y);
+        } else if (_this7.direction == "left") {
+          var _dir2 = String(_this7.x - 1 + "," + _this7.y);
           var fire = document.getElementById(_dir2);
-          if (_this5.fireCheckCollision(_this5.x - 1, _this5.y)) {
+          if (_this7.fireCheckCollision(_this7.x - 1, _this7.y)) {
             fire.children[0].className = "land";
           }
-        } else if (_this5.direction == "right") {
-          var _dir3 = String(_this5.x + 1 + "," + _this5.y);
+        } else if (_this7.direction == "right") {
+          var _dir3 = String(_this7.x + 1 + "," + _this7.y);
           var fire = document.getElementById(_dir3);
-          if (_this5.fireCheckCollision(_this5.x + 1, _this5.y)) {
+          if (_this7.fireCheckCollision(_this7.x + 1, _this7.y)) {
             fire.children[0].className = "land";
           }
         }
       };
 
-      _this5.x = 4;
-      _this5.y = 12;
-      _this5.positionX = 200;
-      _this5.positionY = 600;
-      _this5.direction = "up";
-      _this5.dmg = 1;
-      return _this5;
+      _this7.x = 4;
+      _this7.y = 12;
+      _this7.positionX = 200;
+      _this7.positionY = 600;
+      _this7.direction = "up";
+      _this7.dmg = 1;
+      return _this7;
     }
+    /////////////////////////
+
     /////////////////////////
 
     //////////
@@ -405,6 +476,14 @@ $(document).ready(function () {
             break;
           case BLOCK:
             block = new HardBlock(i, j);
+            block.createBlock();
+            break;
+          case WATER:
+            block = new Water(i, j);
+            block.createBlock();
+            break;
+          case GREEN:
+            block = new Green(i, j);
             block.createBlock();
             break;
           default:

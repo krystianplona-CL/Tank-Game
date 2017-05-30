@@ -16,9 +16,9 @@ $(document).ready(()=>{
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND],
     [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND],
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,LAND,BRICK,BRICK],
-    [LAND,LAND,LAND,LAND,LAND,BLOCK,LAND,BLOCK,LAND,LAND,LAND,BRICK,EAGLE],
+    [LAND,WATER,LAND,LAND,LAND,BLOCK,LAND,BLOCK,LAND,LAND,LAND,BRICK,EAGLE],
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,LAND,BRICK,BRICK],
-    [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND],
+    [LAND,LAND,LAND,LAND,LAND,GREEN,LAND,LAND,LAND,LAND,LAND,LAND,LAND],
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND],
     [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND],
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND],
@@ -106,6 +106,7 @@ $(document).ready(()=>{
       document.getElementById(this.x+","+this.y).appendChild(eagle);
     }
   }
+
   class HardBlock extends Block{
     constructor(x,y){
       super(x,y);
@@ -120,6 +121,38 @@ $(document).ready(()=>{
       harblock.style.left = (this.x) * this.width +"px";
       harblock.style.top = (this.y) * this.height + "px";
       document.getElementById(this.x+","+this.y).appendChild(harblock);
+    }
+  }
+
+  class Water extends Block{
+    constructor(x,y){
+      super(x,y);
+    }
+    createBlock=()=>{
+      let water = document.createElement('div');
+      water.className = "water";
+      water.style.position = "absolute";
+      water.style.width = this.width+"px";
+      water.style.height = this.height+"px";
+      water.style.left = (this.x) * this.width +"px";
+      water.style.top = (this.y) * this.height + "px";
+      document.getElementById(this.x+","+this.y).appendChild(water);
+    }
+  }
+
+  class Green extends Block{
+    constructor(x,y){
+      super(x,y);
+    }
+    createBlock=()=>{
+      let grass = document.createElement('div');
+      grass.className = "green";
+      grass.style.position = "absolute";
+      grass.style.width = this.width+"px";
+      grass.style.height = this.height+"px";
+      grass.style.left = (this.x) * this.width +"px";
+      grass.style.top = (this.y) * this.height + "px";
+      document.getElementById(this.x+","+this.y).appendChild(grass);
     }
   }
 
@@ -146,7 +179,7 @@ $(document).ready(()=>{
     }
     checkCollision = (x,y) =>{
       var blockType = document.getElementById(x+","+y).children[0].className;
-      if(blockType == "brick" || blockType == "block" || blockType == "water"){
+      if(blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water"){
         return false
       }
       else{
@@ -155,7 +188,10 @@ $(document).ready(()=>{
     }
     fireCheckCollision = (x,y) =>{
       var blockType = document.getElementById(x+","+y).children[0].className;
-      if(blockType == "brick" || blockType == "block"){
+      if(blockType == "brick" || blockType == "eagle"){
+        if(blockType == "eagle"){
+          this.gameOver();
+        }
         return true
       }
       else{
@@ -163,9 +199,19 @@ $(document).ready(()=>{
       }
     }
     /////////////////////////
+    gameOver = () =>{
+      var over = document.createElement("div");
+      over.className = "gameOver";
+      over.innerText = "GAME OVER"
+      game.innerHTML = "";
+      game.appendChild(over);
+    }
+    /////////////////////////
     moveUp = () => {
       this.direction = "up";
       var show = document.getElementById(this.x+","+(this.y-1));
+      let up = document.getElementById("player").children[0];
+      up.style.transform  = 'rotate('+0+'deg)';
       if(this.checkCollision(this.x,this.y-1) && this.y > 0){
         let up = document.getElementById("player").children[0];
         up.style.top = (this.positionY - 50)+ "px";
@@ -176,6 +222,8 @@ $(document).ready(()=>{
     //////////
     moveDown=() => {
       this.direction = "down";
+      let up = document.getElementById("player").children[0];
+      up.style.transform  = 'rotate('+180+'deg)';
       var show = document.getElementById(this.x+","+(this.y+1));
       if(this.checkCollision(this.x,this.y+1) && this.y < 12){
         let down = document.getElementById("player").children[0];
@@ -188,6 +236,8 @@ $(document).ready(()=>{
     moveLeft = () => {
       this.direction = "left";
       var show = document.getElementById((this.x-1)+","+this.y);
+      let up = document.getElementById("player").children[0];
+      up.style.transform  = 'rotate('+270+'deg)';
       if(this.checkCollision(this.x-1,this.y) && this.x > 0){
         let left = document.getElementById("player").children[0];
         left.style.left = (this.positionX - 50)+ "px";
@@ -199,6 +249,8 @@ $(document).ready(()=>{
     moveRight=()=>{
       this.direction = "right";
       var show = document.getElementById((this.x+1)+","+this.y);
+      let up = document.getElementById("player").children[0];
+      up.style.transform  = 'rotate('+90+'deg)';
       if(this.checkCollision(this.x+1,this.y) && this.x < 12){
         let right = document.getElementById("player").children[0];
         right.style.left = (this.positionX + 50)+ "px";
@@ -279,6 +331,14 @@ $(document).ready(()=>{
             break;
           case BLOCK:
             block = new HardBlock(i,j);
+            block.createBlock();
+            break;
+          case WATER:
+            block = new Water(i,j);
+            block.createBlock();
+            break;
+          case GREEN:
+            block = new Green(i,j);
             block.createBlock();
             break;
           default:

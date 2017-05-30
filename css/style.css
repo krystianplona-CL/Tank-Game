@@ -12,6 +12,10 @@
 .game{
   width: 650px;
   height: 650px;
+  display: flex;
+}
+.gameOver{
+  align-self: center;
 }
 
 .land{
@@ -23,7 +27,7 @@
 .brick{
   width: 50px;
   height: 50px;
-  background-color: darkred;
+  background-image: url("../brick.png");
 }
 
 .block{
@@ -32,14 +36,29 @@
   background-color: gray;
 }
 
+.water{
+  width: 50px;
+  height: 50px;
+  background-color: navy;
+}
+
 .eagle{
   width: 50px;
   height: 50px;
   background-color: hotpink;
 }
+
+.green{
+  width: 50px;
+  height: 50px;
+  background-color: darkgreen;
+  z-index: 1000;
+  opacity: 0.9;
+}
 .myTank{
   width: 50px;
   height: 50px;
-  background: blue;
+  background-image: url("../tank.png");
+  background-position: center;
 }
 /*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFpbi5jc3MiLCJzb3VyY2VzIjpbIm1haW4uc2NzcyIsIl92YXJpYWJsZXMuc2NzcyIsIl9taXhpbnMuc2NzcyIsIl9zdHlsZS5zY3NzIl0sInNvdXJjZXNDb250ZW50IjpbIkBpbXBvcnQgXCJ2YXJpYWJsZXNcIjtcbkBpbXBvcnQgXCJtaXhpbnNcIjtcbkBpbXBvcnQgXCJzdHlsZVwiO1xuIiwiIiwiIiwiXG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiJ9 */
