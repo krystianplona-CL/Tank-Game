@@ -212,12 +212,11 @@ $(document).ready(()=>{
       var blockType = document.getElementById(x+","+y).children[0].className;
       var data = Number(document.getElementById(x+","+y).children[0].dataset.hp);
       if(blockType == "brick" || blockType == "eagle" || blockType == "block"){
-
-        return true;
-
+        console.log(blockType);
         if(blockType == "eagle"){
           this.gameOver();
         }
+        return true;
       }
       else{
         return false
@@ -309,7 +308,15 @@ $(document).ready(()=>{
         let dir = String((this.x)+","+(this.y-1));
         var fire = document.getElementById(dir);
         if(this.fireCheckCollision((this.x),this.y-1)){
-          fire.children[0].className = "land";
+          var checkdmg = fire.children[0].className;
+          if(checkdmg == "block"){
+            bullet.children[0].innerHTML = "";
+            this.fireBool = true;
+            clearInterval(this.interval);
+          }
+          else{
+            fire.children[0].className = "land";
+          }
         }
         else {
           if(this.fireBool){
@@ -325,7 +332,6 @@ $(document).ready(()=>{
                 let div = document.getElementById(bul.x+","+bul.y)
                 if(this.fireCheckCollision(bul.x, bul.y)){
                   var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
-                  console.log(checkdmg);
                   if(checkdmg == "block"){
                     bullet.parentNode.innerHTML = "";
                     this.fireBool = true;
@@ -353,21 +359,170 @@ $(document).ready(()=>{
         let dir = String((this.x)+","+(this.y+1));
         var fire = document.getElementById(dir);
         if(this.fireCheckCollision((this.x),this.y+1)){
-          fire.children[0].className = "land";
+          var checkdmg = fire.children[0].className;
+          if(checkdmg == "block"){
+            bullet.children[0].innerHTML = "";
+            this.fireBool = true;
+            clearInterval(this.interval);
+          }
+          else{
+
+            fire.children[0].className = "land";
+          }
+        }
+        else {
+          if(this.fireBool){
+            this.fireBool = false;
+            let bul = new Bullet((this.x),this.y+1);
+            bul.createBullet();
+            let bullet = document.getElementById("bullet").children[0];
+            this.interval = setInterval(()=>{
+              bullet.style.left = (bul.x) * 50 +"px";
+              bullet.style.top = (bul.y+1) * 50 + "px";
+              bullet.style.transform = 'rotate('+180+'deg)';
+              bul.y = bul.y + 1;
+              if(bul.y < 12){
+                if(this.fireCheckCollision(bul.x, bul.y)){
+                  var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
+                  if(checkdmg == "block"){
+                    bullet.parentNode.innerHTML = "";
+                    this.fireBool = true;
+                    clearInterval(this.interval);
+                  }
+                  else{
+                    document.getElementById(bul.x+","+bul.y).children[0].className = "land";
+                    bullet.parentNode.innerHTML = "";
+                    this.fireBool = true;
+                    clearInterval(this.interval);
+                  }
+                }
+              }
+              else if(bul.y = 12){
+                if(document.getElementById(bul.x+","+bul.y).children[0].className == "eagle"){
+                  this.gameOver();
+                  clearInterval(this.interval);
+                }
+                document.getElementById(bul.x+","+bul.y).children[0].className = "land";
+                bullet.parentNode.innerHTML = "";
+                this.fireBool = true;
+                clearInterval(this.interval)
+              }
+              else{
+                clearInterval(this.interval);
+                this.fireBool = true;
+              }
+            },250)
+          }
         }
       }
       else if(this.direction == "left"){
         let dir = String((this.x-1)+","+(this.y));
         var fire = document.getElementById(dir);
         if(this.fireCheckCollision((this.x-1),this.y)){
-          fire.children[0].className = "land";
+          var checkdmg = fire.children[0].className;
+          if(checkdmg == "block"){
+            bullet.children[0].innerHTML = "";
+            this.fireBool = true;
+            clearInterval(this.interval);
+          }
+          else{
+            fire.children[0].className = "land";
+          }
+        }
+        else {
+          if(this.fireBool){
+            this.fireBool = false;
+            let bul = new Bullet((this.x-1),this.y);
+            bul.createBullet();
+            let bullet = document.getElementById("bullet").children[0];
+            bullet.style.transform = 'rotate('+270+'deg)';
+            this.interval = setInterval(()=>{
+              bullet.style.left = (bul.x-1) * 50 +"px";
+              bullet.style.top = (bul.y) * 50 + "px";
+              bul.x = bul.x - 1;
+              if(bul.x >= 0){
+                if(this.fireCheckCollision(bul.x, bul.y)){
+                  var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
+                  if(checkdmg == "block"){
+                    bullet.parentNode.innerHTML = "";
+                    this.fireBool = true;
+                    clearInterval(this.interval);
+                  }
+                  else{
+                    document.getElementById(bul.x+","+bul.y).children[0].className = "land";
+                    bullet.parentNode.innerHTML = "";
+                    this.fireBool = true;
+                    clearInterval(this.interval);
+                  }
+                }
+              }
+
+              else{
+                clearInterval(this.interval);
+                this.fireBool = true;
+              }
+            },250)
+          }
         }
       }
       else if(this.direction == "right"){
         let dir = String((this.x+1)+","+(this.y));
         var fire = document.getElementById(dir);
         if(this.fireCheckCollision((this.x+1),this.y)){
-          fire.children[0].className = "land";
+          var checkdmg = fire.children[0].className;
+          if(checkdmg == "block"){
+            bullet.children[0].innerHTML = "";
+            this.fireBool = true;
+            clearInterval(this.interval);
+          }
+          else{
+            fire.children[0].className = "land";
+          }
+        }
+        else {
+          if(this.fireBool){
+            this.fireBool = false;
+            let bul = new Bullet((this.x+1),this.y);
+            bul.createBullet();
+            let bullet = document.getElementById("bullet").children[0];
+            bullet.style.transform = 'rotate('+90+'deg)';
+            this.interval = setInterval(()=>{
+              bullet.style.left = (bul.x+1) * 50 +"px";
+              bullet.style.top = (bul.y) * 50 + "px";
+              bul.x = bul.x + 1;
+              if(bul.x <= 12){
+                if(this.fireCheckCollision(bul.x, bul.y)){
+                  var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
+                  if(checkdmg == "block"){
+                    bullet.parentNode.innerHTML = "";
+                    this.fireBool = true;
+                    clearInterval(this.interval);
+                  }
+                  else{
+                    document.getElementById(bul.x+","+bul.y).children[0].className = "land";
+                    bullet.parentNode.innerHTML = "";
+                    this.fireBool = true;
+                    clearInterval(this.interval);
+                  }
+                }
+              }
+              else if(bul.x = 12){
+                if(document.getElementById(bul.x+","+bul.y).children[0].className == "eagle"){
+                  this.gameOver();
+                  clearInterval(this.interval);
+                }
+                document.getElementById(bul.x+","+bul.y).children[0].className = "land";
+                bullet.parentNode.innerHTML = "";
+                this.fireBool = true;
+                clearInterval(this.interval)
+              }
+
+              else{
+                clearInterval(this.interval);
+                this.fireBool = true;
+              }
+            },250)
+          }
         }
       }
     }
@@ -415,6 +570,10 @@ $(document).ready(()=>{
   var myTank = new Player();
   myTank.createPlayer();
 
+  // var gameo = document.querySelector(".eagle");
+  // $(gameo).on("change", (event)=>{
+  //   myTank.gameOver();
+  // });
   $(document).on("keydown", (event)=>{
     myTank.moveTank(event);
   })

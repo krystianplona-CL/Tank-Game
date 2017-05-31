@@ -343,12 +343,11 @@ $(document).ready(function () {
         var blockType = document.getElementById(x + "," + y).children[0].className;
         var data = Number(document.getElementById(x + "," + y).children[0].dataset.hp);
         if (blockType == "brick" || blockType == "eagle" || blockType == "block") {
-
-          return true;
-
+          console.log(blockType);
           if (blockType == "eagle") {
             _this8.gameOver();
           }
+          return true;
         } else {
           return false;
         }
@@ -439,29 +438,35 @@ $(document).ready(function () {
           var dir = String(_this8.x + "," + (_this8.y - 1));
           var fire = document.getElementById(dir);
           if (_this8.fireCheckCollision(_this8.x, _this8.y - 1)) {
-            fire.children[0].className = "land";
+            var checkdmg = fire.children[0].className;
+            if (checkdmg == "block") {
+              bullet.children[0].innerHTML = "";
+              _this8.fireBool = true;
+              clearInterval(_this8.interval);
+            } else {
+              fire.children[0].className = "land";
+            }
           } else {
             if (_this8.fireBool) {
               _this8.fireBool = false;
               var bul = new Bullet(_this8.x, _this8.y - 1);
               bul.createBullet();
-              var bullet = document.getElementById("bullet").children[0];
+              var _bullet = document.getElementById("bullet").children[0];
               _this8.interval = setInterval(function () {
-                bullet.style.left = bul.x * 50 + "px";
-                bullet.style.top = (bul.y - 1) * 50 + "px";
+                _bullet.style.left = bul.x * 50 + "px";
+                _bullet.style.top = (bul.y - 1) * 50 + "px";
                 bul.y = bul.y - 1;
                 if (bul.y >= 0) {
                   var div = document.getElementById(bul.x + "," + bul.y);
                   if (_this8.fireCheckCollision(bul.x, bul.y)) {
                     var checkdmg = document.getElementById(bul.x + "," + bul.y).children[0].className;
-                    console.log(checkdmg);
                     if (checkdmg == "block") {
-                      bullet.parentNode.innerHTML = "";
+                      _bullet.parentNode.innerHTML = "";
                       _this8.fireBool = true;
                       clearInterval(_this8.interval);
                     } else {
                       document.getElementById(bul.x + "," + bul.y).children[0].className = "land";
-                      bullet.parentNode.innerHTML = "";
+                      _bullet.parentNode.innerHTML = "";
                       _this8.fireBool = true;
                       clearInterval(_this8.interval);
                     }
@@ -477,19 +482,152 @@ $(document).ready(function () {
           var _dir = String(_this8.x + "," + (_this8.y + 1));
           var fire = document.getElementById(_dir);
           if (_this8.fireCheckCollision(_this8.x, _this8.y + 1)) {
-            fire.children[0].className = "land";
+            var checkdmg = fire.children[0].className;
+            if (checkdmg == "block") {
+              bullet.children[0].innerHTML = "";
+              _this8.fireBool = true;
+              clearInterval(_this8.interval);
+            } else {
+
+              fire.children[0].className = "land";
+            }
+          } else {
+            if (_this8.fireBool) {
+              _this8.fireBool = false;
+              var _bul = new Bullet(_this8.x, _this8.y + 1);
+              _bul.createBullet();
+              var _bullet2 = document.getElementById("bullet").children[0];
+              _this8.interval = setInterval(function () {
+                _bullet2.style.left = _bul.x * 50 + "px";
+                _bullet2.style.top = (_bul.y + 1) * 50 + "px";
+                _bullet2.style.transform = 'rotate(' + 180 + 'deg)';
+                _bul.y = _bul.y + 1;
+                if (_bul.y < 12) {
+                  if (_this8.fireCheckCollision(_bul.x, _bul.y)) {
+                    var checkdmg = document.getElementById(_bul.x + "," + _bul.y).children[0].className;
+                    if (checkdmg == "block") {
+                      _bullet2.parentNode.innerHTML = "";
+                      _this8.fireBool = true;
+                      clearInterval(_this8.interval);
+                    } else {
+                      document.getElementById(_bul.x + "," + _bul.y).children[0].className = "land";
+                      _bullet2.parentNode.innerHTML = "";
+                      _this8.fireBool = true;
+                      clearInterval(_this8.interval);
+                    }
+                  }
+                } else if (_bul.y = 12) {
+                  if (document.getElementById(_bul.x + "," + _bul.y).children[0].className == "eagle") {
+                    _this8.gameOver();
+                    clearInterval(_this8.interval);
+                  }
+                  document.getElementById(_bul.x + "," + _bul.y).children[0].className = "land";
+                  _bullet2.parentNode.innerHTML = "";
+                  _this8.fireBool = true;
+                  clearInterval(_this8.interval);
+                } else {
+                  clearInterval(_this8.interval);
+                  _this8.fireBool = true;
+                }
+              }, 250);
+            }
           }
         } else if (_this8.direction == "left") {
           var _dir2 = String(_this8.x - 1 + "," + _this8.y);
           var fire = document.getElementById(_dir2);
           if (_this8.fireCheckCollision(_this8.x - 1, _this8.y)) {
-            fire.children[0].className = "land";
+            var checkdmg = fire.children[0].className;
+            if (checkdmg == "block") {
+              bullet.children[0].innerHTML = "";
+              _this8.fireBool = true;
+              clearInterval(_this8.interval);
+            } else {
+              fire.children[0].className = "land";
+            }
+          } else {
+            if (_this8.fireBool) {
+              _this8.fireBool = false;
+              var _bul2 = new Bullet(_this8.x - 1, _this8.y);
+              _bul2.createBullet();
+              var _bullet3 = document.getElementById("bullet").children[0];
+              _bullet3.style.transform = 'rotate(' + 270 + 'deg)';
+              _this8.interval = setInterval(function () {
+                _bullet3.style.left = (_bul2.x - 1) * 50 + "px";
+                _bullet3.style.top = _bul2.y * 50 + "px";
+                _bul2.x = _bul2.x - 1;
+                if (_bul2.x >= 0) {
+                  if (_this8.fireCheckCollision(_bul2.x, _bul2.y)) {
+                    var checkdmg = document.getElementById(_bul2.x + "," + _bul2.y).children[0].className;
+                    if (checkdmg == "block") {
+                      _bullet3.parentNode.innerHTML = "";
+                      _this8.fireBool = true;
+                      clearInterval(_this8.interval);
+                    } else {
+                      document.getElementById(_bul2.x + "," + _bul2.y).children[0].className = "land";
+                      _bullet3.parentNode.innerHTML = "";
+                      _this8.fireBool = true;
+                      clearInterval(_this8.interval);
+                    }
+                  }
+                } else {
+                  clearInterval(_this8.interval);
+                  _this8.fireBool = true;
+                }
+              }, 250);
+            }
           }
         } else if (_this8.direction == "right") {
           var _dir3 = String(_this8.x + 1 + "," + _this8.y);
           var fire = document.getElementById(_dir3);
           if (_this8.fireCheckCollision(_this8.x + 1, _this8.y)) {
-            fire.children[0].className = "land";
+            var checkdmg = fire.children[0].className;
+            if (checkdmg == "block") {
+              bullet.children[0].innerHTML = "";
+              _this8.fireBool = true;
+              clearInterval(_this8.interval);
+            } else {
+              fire.children[0].className = "land";
+            }
+          } else {
+            if (_this8.fireBool) {
+              _this8.fireBool = false;
+              var _bul3 = new Bullet(_this8.x + 1, _this8.y);
+              _bul3.createBullet();
+              var _bullet4 = document.getElementById("bullet").children[0];
+              _bullet4.style.transform = 'rotate(' + 90 + 'deg)';
+              _this8.interval = setInterval(function () {
+                _bullet4.style.left = (_bul3.x + 1) * 50 + "px";
+                _bullet4.style.top = _bul3.y * 50 + "px";
+                _bul3.x = _bul3.x + 1;
+                if (_bul3.x <= 12) {
+                  if (_this8.fireCheckCollision(_bul3.x, _bul3.y)) {
+                    var checkdmg = document.getElementById(_bul3.x + "," + _bul3.y).children[0].className;
+                    if (checkdmg == "block") {
+                      _bullet4.parentNode.innerHTML = "";
+                      _this8.fireBool = true;
+                      clearInterval(_this8.interval);
+                    } else {
+                      document.getElementById(_bul3.x + "," + _bul3.y).children[0].className = "land";
+                      _bullet4.parentNode.innerHTML = "";
+                      _this8.fireBool = true;
+                      clearInterval(_this8.interval);
+                    }
+                  }
+                } else if (_bul3.x = 12) {
+                  if (document.getElementById(_bul3.x + "," + _bul3.y).children[0].className == "eagle") {
+                    _this8.gameOver();
+                    clearInterval(_this8.interval);
+                  }
+                  document.getElementById(_bul3.x + "," + _bul3.y).children[0].className = "land";
+                  _bullet4.parentNode.innerHTML = "";
+                  _this8.fireBool = true;
+                  clearInterval(_this8.interval);
+                } else {
+                  clearInterval(_this8.interval);
+                  _this8.fireBool = true;
+                }
+              }, 250);
+            }
           }
         }
       };
@@ -563,6 +701,10 @@ $(document).ready(function () {
   var myTank = new Player();
   myTank.createPlayer();
 
+  // var gameo = document.querySelector(".eagle");
+  // $(gameo).on("change", (event)=>{
+  //   myTank.gameOver();
+  // });
   $(document).on("keydown", function (event) {
     myTank.moveTank(event);
   });
