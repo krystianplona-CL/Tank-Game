@@ -28,6 +28,7 @@
   width: 50px;
   height: 50px;
   background-image: url("../brick.png");
+  background-size: cover;
 }
 
 .block{
@@ -39,7 +40,8 @@
 .water{
   width: 50px;
   height: 50px;
-  background-color: navy;
+  background-image: url("../water.png");
+  background-size: cover;
 }
 
 .eagle{
@@ -51,7 +53,7 @@
 .green{
   width: 50px;
   height: 50px;
-  background-color: darkgreen;
+  background-image: url("../grass2.png");
   z-index: 1000;
   opacity: 0.9;
 }
@@ -68,5 +70,12 @@
   background-position: center;
   background-repeat: no-repeat;
   z-index: 1000;
+}
+.enemy{
+  width: 50px;
+  height: 50px;
+  background-image: url("../tank.png");
+  background-position: center;
+  transform: rotate(180deg);
 }
 /*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFpbi5jc3MiLCJzb3VyY2VzIjpbIm1haW4uc2NzcyIsIl92YXJpYWJsZXMuc2NzcyIsIl9taXhpbnMuc2NzcyIsIl9zdHlsZS5zY3NzIl0sInNvdXJjZXNDb250ZW50IjpbIkBpbXBvcnQgXCJ2YXJpYWJsZXNcIjtcbkBpbXBvcnQgXCJtaXhpbnNcIjtcbkBpbXBvcnQgXCJzdHlsZVwiO1xuIiwiIiwiIiwiXG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiJ9 */

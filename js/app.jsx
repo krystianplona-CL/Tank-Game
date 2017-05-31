@@ -25,7 +25,6 @@ $(document).ready(()=>{
     [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND]
   ];
 
-  var counter = 1;
 
   function showMap(){
     let position = 0;
@@ -528,6 +527,139 @@ $(document).ready(()=>{
     }
   }
 
+  class Enemy extends Block {
+    constructor(x,y,z){
+      super();
+      this.x = x;
+      this.y = y;
+      this.z = z;
+      this.direction = 1;
+    }
+    createEnemy=()=>{
+      let enemy = document.createElement('div');
+      enemy.className = "enemy";
+      enemy.style.position = "absolute";
+      enemy.style.width = this.width+"px";
+      enemy.style.height = this.height+"px";
+      enemy.style.left = this.x * 50+"px";
+      enemy.style.top = this.y * 50+"px";
+      enemy.style.zIndex = 1;
+      var name = "enemy"+this.z;
+      document.getElementById(name).appendChild(enemy);
+    }
+    checkCollision = (x,y) =>{
+      var blockType = document.getElementById(x+","+y).children[0].className;
+      if(blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water"){
+        return false
+      }
+      else{
+        return true
+      }
+    }
+    fireCheckCollision = (x,y) =>{
+      var blockType = document.getElementById(x+","+y).children[0].className;
+      var data = Number(document.getElementById(x+","+y).children[0].dataset.hp);
+      if(blockType == "brick" || blockType == "eagle" || blockType == "block"){
+        console.log(blockType);
+        if(blockType == "eagle"){
+          this.gameOver();
+        }
+        return true;
+      }
+      else{
+        return false
+      }
+    }
+    gameOver = () =>{
+      var over = document.createElement("div");
+      over.className = "gameOver";
+      over.innerText = "GAME OVER"
+      game.innerHTML = "";
+      game.appendChild(over);
+    }
+    moveDown=() => {
+      let down = document.getElementById("enemy"+this.z).children[0];
+      down.style.transform  = 'rotate('+180+'deg)';
+      var show = document.getElementById(this.x+","+(this.y+1));
+      if(this.checkCollision(this.x,this.y+1) && this.y < 12){
+        down.style.top = (this.y*50 + 50)+ "px";
+        this.y+=1;
+      }
+      if (show.children[0].className == "brick"){
+        show.children[0].className = "land";
+      }
+      if (show.children[0].className == "eagle"){
+        this.gameOver();
+      }
+    }
+    moveUp = () => {
+      var show = document.getElementById(this.x+","+(this.y-1));
+      let up = document.getElementById("enemy"+this.z).children[0];
+      up.style.transform  = 'rotate('+0+'deg)';
+      if(this.checkCollision(this.x,this.y-1) && this.y > 0){
+        up.style.top = (this.y*50 - 50)+ "px";
+        this.y-=1;
+      }
+      if (show.children[0].className == "brick"){
+        show.children[0].className = "land";
+      }
+      if (show.children[0].className == "eagle"){
+        this.gameOver();
+      }
+    }
+    moveLeft = () => {
+      var show = document.getElementById((this.x-1)+","+this.y);
+      let left = document.getElementById("enemy"+this.z).children[0];
+      left.style.transform  = 'rotate('+270+'deg)';
+      if(this.checkCollision(this.x-1,this.y) && this.x > 0){
+        left.style.left = (this.x*50 - 50)+ "px";
+        this.x-=1;
+        show.className.children[0] = "land";
+      }
+      if (show.children[0].className == "brick"){
+        show.children[0].className = "land";
+      }
+      if (show.children[0].className == "eagle"){
+        this.gameOver();
+      }
+    }
+    moveRight = () => {
+      var show = document.getElementById((this.x+1)+","+this.y);
+      let right = document.getElementById("enemy"+this.z).children[0];
+      right.style.transform  = 'rotate('+90+'deg)';
+      if(this.checkCollision(this.x+1,this.y) && this.x < 12){
+        right.style.left = (this.x*50 + 50)+ "px";
+        this.x+=1;
+        show.className.children[0] = "land";
+      }
+      if (show.children[0].className == "brick"){
+        show.children[0].className = "land";
+      }
+      if (show.children[0].className == "eagle"){
+        this.gameOver();
+      }
+    }
+    moveTank=()=>{
+      this.enemyInterval = setInterval(()=>{
+        var rand = Math.round(Math.random() * 5) + 1;
+        if (rand == 1 || rand == 5){
+          this.moveDown();
+        }
+        else if (rand == 2){
+          this.moveUp();
+        }
+        else if(rand == 3){
+          this.moveLeft();
+        }
+        else if(rand == 4){
+          this.moveRight();
+        }
+        else{
+          return false;
+        }
+      },1000)
+    }
+  }
   function loadMap(){
     var block;
     for (let i = 0; i < 13; i++) {
@@ -570,12 +702,23 @@ $(document).ready(()=>{
   var myTank = new Player();
   myTank.createPlayer();
 
-  // var gameo = document.querySelector(".eagle");
-  // $(gameo).on("change", (event)=>{
-  //   myTank.gameOver();
-  // });
+  var enemy0 = new Enemy(0,0,0);
+  enemy0.createEnemy();
+  var enemy1 = new Enemy(6,0,1);
+  enemy1.createEnemy();
+  var enemy2 = new Enemy(12,0,2);
+  enemy2.createEnemy();
+
   $(document).on("keydown", (event)=>{
     myTank.moveTank(event);
+    enemy0.moveTank();
+    enemy1.moveTank();
+    enemy2.moveTank();
+    // var xd = ($(".myTank").collision(".enemy"));
+    // if(xd[0].className)
+    // {
+    //   console.log(xd[0].className);
+    // }
   })
 
 })
