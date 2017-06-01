@@ -701,9 +701,18 @@ $(document).ready(function () {
       };
 
       _this8.win = function () {
+        for (var i = 1; i < 99999; i++) {
+          window.clearInterval(i);
+        }
+        console.log("win");
         var win = document.querySelector("#game");
         win.innerHTML = "";
         win.className = "win";
+        var youwin = document.createElement("iframe");
+        youwin.style.width = "100vw";
+        youwin.style.height = "100vh";
+        youwin.src = "http://disco.fleo.se/YouWin";
+        win.appendChild(youwin);
       };
 
       _this8.nextRound = function () {
@@ -720,7 +729,7 @@ $(document).ready(function () {
           enemy1.createEnemy();
           var enemy2 = new Enemy(12, _this8.respawn, 2);
           enemy2.createEnemy();
-          if (_this8.respawn == 2) {
+          if (_this8.respawn == 1) {
             _this8.win();
           }
           enemy0.moveTank();
