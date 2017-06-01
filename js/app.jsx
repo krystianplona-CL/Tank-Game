@@ -616,7 +616,6 @@ $(document).ready(()=>{
       youwin.style.height = "100vh";
       youwin.src = "http://disco.fleo.se/YouWin";
       win.appendChild(youwin);
-
     }
     nextRound=() =>{
       this.fireBool = true;
