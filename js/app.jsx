@@ -16,7 +16,7 @@ $(document).ready(()=>{
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND],
     [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND],
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,LAND,BRICK,BRICK],
-    [LAND,WATER,LAND,LAND,LAND,BLOCK,LAND,BLOCK,LAND,LAND,LAND,BRICK,EAGLE],
+    [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,BRICK,EAGLE],
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,LAND,BRICK,BRICK],
     [LAND,LAND,LAND,LAND,LAND,GREEN,LAND,LAND,LAND,LAND,LAND,LAND,LAND],
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND],
@@ -186,6 +186,8 @@ $(document).ready(()=>{
       this.direction = "up";
       this.dmg = 1;
       this.fireBool = true;
+      this.respawn = 0;
+      this.points = 0;
     }
     createPlayer=()=>{
       let player = document.createElement('div');
@@ -211,7 +213,6 @@ $(document).ready(()=>{
       var blockType = document.getElementById(x+","+y).children[0].className;
       var data = Number(document.getElementById(x+","+y).children[0].dataset.hp);
       if(blockType == "brick" || blockType == "eagle" || blockType == "block"){
-        console.log(blockType);
         if(blockType == "eagle"){
           this.gameOver();
         }
@@ -324,6 +325,28 @@ $(document).ready(()=>{
             bul.createBullet();
             let bullet = document.getElementById("bullet").children[0];
             this.interval = setInterval(()=>{
+              var destroy = ($(".boom").collision(".enemy"));
+              var parent = destroy.parent();
+              if (parent[0] !== undefined) {
+                if(parent[0].id == "enemy0"){
+                  document.getElementById("enemy0").innerHTML = "";
+                  bullet.parentNode.innerHTML = "";
+                  this.points = this.points+1;
+                  this.nextRound();
+                }
+                else if (parent[0].id == "enemy1"){
+                  document.getElementById("enemy1").innerHTML = "";
+                  this.points = this.points+1;
+                  bullet.parentNode.innerHTML = "";
+                  this.nextRound();
+                }
+                else if (parent[0].id == "enemy2"){
+                  document.getElementById("enemy2").innerHTML = "";
+                  this.points = this.points+1;
+                  bullet.parentNode.innerHTML = "";
+                  this.nextRound();
+                }
+              }
               bullet.style.left = (bul.x) * 50 +"px";
               bullet.style.top = (bul.y-1) * 50 + "px";
               bul.y = bul.y - 1;
@@ -342,8 +365,6 @@ $(document).ready(()=>{
                     this.fireBool = true;
                     clearInterval(this.interval);
                   }
-                }
-                else{
                 }
               }
               else{
@@ -365,7 +386,6 @@ $(document).ready(()=>{
             clearInterval(this.interval);
           }
           else{
-
             fire.children[0].className = "land";
           }
         }
@@ -376,6 +396,28 @@ $(document).ready(()=>{
             bul.createBullet();
             let bullet = document.getElementById("bullet").children[0];
             this.interval = setInterval(()=>{
+              var destroy = ($(".boom").collision(".enemy"));
+              var parent = destroy.parent();
+              if (parent[0] !== undefined) {
+                if(parent[0].id == "enemy0"){
+                  document.getElementById("enemy0").innerHTML = "";
+                  bullet.parentNode.innerHTML = "";
+                  this.points = this.points+1;
+                  this.nextRound();
+                }
+                else if (parent[0].id == "enemy1"){
+                  document.getElementById("enemy1").innerHTML = "";
+                  this.points = this.points+1;
+                  bullet.parentNode.innerHTML = "";
+                  this.nextRound();
+                }
+                else if (parent[0].id == "enemy2"){
+                  document.getElementById("enemy2").innerHTML = "";
+                  this.points = this.points+1;
+                  bullet.parentNode.innerHTML = "";
+                  this.nextRound();
+                }
+              }
               bullet.style.left = (bul.x) * 50 +"px";
               bullet.style.top = (bul.y+1) * 50 + "px";
               bullet.style.transform = 'rotate('+180+'deg)';
@@ -436,6 +478,28 @@ $(document).ready(()=>{
             let bullet = document.getElementById("bullet").children[0];
             bullet.style.transform = 'rotate('+270+'deg)';
             this.interval = setInterval(()=>{
+              var destroy = ($(".boom").collision(".enemy"));
+              var parent = destroy.parent();
+              if (parent[0] !== undefined) {
+                if(parent[0].id == "enemy0"){
+                  document.getElementById("enemy0").innerHTML = "";
+                  bullet.parentNode.innerHTML = "";
+                  this.points = this.points+1;
+                  this.nextRound();
+                }
+                else if (parent[0].id == "enemy1"){
+                  document.getElementById("enemy1").innerHTML = "";
+                  this.points = this.points+1;
+                  bullet.parentNode.innerHTML = "";
+                  this.nextRound();
+                }
+                else if (parent[0].id == "enemy2"){
+                  document.getElementById("enemy2").innerHTML = "";
+                  this.points = this.points+1;
+                  bullet.parentNode.innerHTML = "";
+                  this.nextRound();
+                }
+              }
               bullet.style.left = (bul.x-1) * 50 +"px";
               bullet.style.top = (bul.y) * 50 + "px";
               bul.x = bul.x - 1;
@@ -486,43 +550,84 @@ $(document).ready(()=>{
             let bullet = document.getElementById("bullet").children[0];
             bullet.style.transform = 'rotate('+90+'deg)';
             this.interval = setInterval(()=>{
-              bullet.style.left = (bul.x+1) * 50 +"px";
-              bullet.style.top = (bul.y) * 50 + "px";
-              bul.x = bul.x + 1;
-              if(bul.x <= 12){
-                if(this.fireCheckCollision(bul.x, bul.y)){
-                  var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
-                  if(checkdmg == "block"){
-                    bullet.parentNode.innerHTML = "";
-                    this.fireBool = true;
-                    clearInterval(this.interval);
-                  }
-                  else{
-                    document.getElementById(bul.x+","+bul.y).children[0].className = "land";
-                    bullet.parentNode.innerHTML = "";
-                    this.fireBool = true;
-                    clearInterval(this.interval);
-                  }
+              var destroy = ($(".boom").collision(".enemy"));
+              var parent = destroy.parent();
+              if (parent[0] !== undefined) {
+                if(parent[0].id == "enemy0"){
+                  document.getElementById("enemy0").innerHTML = "";
+                  bullet.parentNode.innerHTML = "";
+                  this.points = this.points+1;
+                  this.nextRound();
+                }
+                else if (parent[0].id == "enemy1"){
+                  document.getElementById("enemy1").innerHTML = "";
+                  this.points = this.points+1;
+                  bullet.parentNode.innerHTML = "";
+                  this.nextRound();
+                }
+                else if (parent[0].id == "enemy2"){
+                  document.getElementById("enemy2").innerHTML = "";
+                  this.points = this.points+1;
+                  bullet.parentNode.innerHTML = "";
+                  this.nextRound();
                 }
               }
-              else if(bul.x = 12){
-                if(document.getElementById(bul.x+","+bul.y).children[0].className == "eagle"){
-                  this.gameOver();
-                  clearInterval(this.interval);
+              else{
+                bullet.style.left = (bul.x+1) * 50 +"px";
+                bullet.style.top = (bul.y) * 50 + "px";
+                bul.x = bul.x + 1;
+                if(bul.x < 12){
+                  if(this.fireCheckCollision(bul.x, bul.y)){
+                    var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
+                    if(checkdmg == "block"){
+                      bullet.parentNode.innerHTML = "";
+                      this.fireBool = true;
+                      clearInterval(this.interval);
+                    }
+                    else{
+                      document.getElementById(bul.x+","+bul.y).children[0].className = "land";
+                      bullet.parentNode.innerHTML = "";
+                      this.fireBool = true;
+                      clearInterval(this.interval);
+                    }
+                  }
                 }
-                document.getElementById(bul.x+","+bul.y).children[0].className = "land";
-                bullet.parentNode.innerHTML = "";
-                this.fireBool = true;
-                clearInterval(this.interval)
+                else{
+                  clearInterval(this.interval);
+                  this.fireBool = true;
+                }
               }
 
-              else{
-                clearInterval(this.interval);
-                this.fireBool = true;
-              }
             },250)
           }
         }
+      }
+    }
+    win = () =>{
+      var win = document.querySelector("#game")
+      win.innerHTML = "";
+      win.className="win"
+    }
+    nextRound=() =>{
+      this.fireBool = true;
+      let points = this.points % 3;
+      if(points == 0){
+        for (var i = 1; i < 99999; i++){
+          window.clearInterval(i);
+        }
+        this.respawn = this.respawn+1;
+        var enemy0 = new Enemy(0,this.respawn,0);
+        enemy0.createEnemy();
+        var enemy1 = new Enemy(6,this.respawn,1);
+        enemy1.createEnemy();
+        var enemy2 = new Enemy(12,this.respawn,2);
+        enemy2.createEnemy();
+        if(this.respawn == 2){
+          this.win();
+        }
+        enemy0.moveTank();
+        enemy1.moveTank();
+        enemy2.moveTank();
       }
     }
   }
@@ -560,7 +665,6 @@ $(document).ready(()=>{
       var blockType = document.getElementById(x+","+y).children[0].className;
       var data = Number(document.getElementById(x+","+y).children[0].dataset.hp);
       if(blockType == "brick" || blockType == "eagle" || blockType == "block"){
-        console.log(blockType);
         if(blockType == "eagle"){
           this.gameOver();
         }
@@ -591,6 +695,10 @@ $(document).ready(()=>{
       if (show.children[0].className == "eagle"){
         this.gameOver();
       }
+      var destroy = ($(".enemy").collision(".myTank"));
+      if(destroy[0].className == "myTank"){
+        this.gameOver();
+      }
     }
     moveUp = () => {
       var show = document.getElementById(this.x+","+(this.y-1));
@@ -604,6 +712,10 @@ $(document).ready(()=>{
         show.children[0].className = "land";
       }
       if (show.children[0].className == "eagle"){
+        this.gameOver();
+      }
+      var destroy = ($(".enemy").collision(".myTank"));
+      if(destroy[0].className == "myTank"){
         this.gameOver();
       }
     }
@@ -622,6 +734,10 @@ $(document).ready(()=>{
       if (show.children[0].className == "eagle"){
         this.gameOver();
       }
+      var destroy = ($(".enemy").collision(".myTank"));
+      if(destroy[0].className == "myTank"){
+        this.gameOver();
+      }
     }
     moveRight = () => {
       var show = document.getElementById((this.x+1)+","+this.y);
@@ -636,6 +752,10 @@ $(document).ready(()=>{
         show.children[0].className = "land";
       }
       if (show.children[0].className == "eagle"){
+        this.gameOver();
+      }
+      var destroy = ($(".enemy").collision(".myTank"));
+      if(destroy[0].className == "myTank"){
         this.gameOver();
       }
     }
@@ -702,6 +822,7 @@ $(document).ready(()=>{
   var myTank = new Player();
   myTank.createPlayer();
 
+
   var enemy0 = new Enemy(0,0,0);
   enemy0.createEnemy();
   var enemy1 = new Enemy(6,0,1);
@@ -711,14 +832,10 @@ $(document).ready(()=>{
 
   $(document).on("keydown", (event)=>{
     myTank.moveTank(event);
-    enemy0.moveTank();
-    enemy1.moveTank();
-    enemy2.moveTank();
-    // var xd = ($(".myTank").collision(".enemy"));
-    // if(xd[0].className)
-    // {
-    //   console.log(xd[0].className);
-    // }
   })
+
+  enemy0.moveTank();
+  enemy1.moveTank();
+  enemy2.moveTank();
 
 })

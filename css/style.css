@@ -78,4 +78,12 @@
   background-position: center;
   transform: rotate(180deg);
 }
+.win{
+  width: 100vw;
+  height: 100vh;
+  background-image: url("http://pl.memgenerator.pl/mem-image/odjebane-perfekcyjnie-pl-ffffff/d");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
 /*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFpbi5jc3MiLCJzb3VyY2VzIjpbIm1haW4uc2NzcyIsIl92YXJpYWJsZXMuc2NzcyIsIl9taXhpbnMuc2NzcyIsIl9zdHlsZS5zY3NzIl0sInNvdXJjZXNDb250ZW50IjpbIkBpbXBvcnQgXCJ2YXJpYWJsZXNcIjtcbkBpbXBvcnQgXCJtaXhpbnNcIjtcbkBpbXBvcnQgXCJzdHlsZVwiO1xuIiwiIiwiIiwiXG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiJ9 */

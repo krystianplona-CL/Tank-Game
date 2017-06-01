@@ -90,7 +90,7 @@ $(document).ready(function () {
 
   var game = document.querySelector(".game");
 
-  var map = [[LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, WATER, LAND, LAND, LAND, BLOCK, LAND, BLOCK, LAND, LAND, LAND, BRICK, EAGLE], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, GREEN, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND]];
+  var map = [[LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, BRICK, EAGLE], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, GREEN, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND]];
 
   function showMap() {
     var position = 0;
@@ -341,7 +341,6 @@ $(document).ready(function () {
         var blockType = document.getElementById(x + "," + y).children[0].className;
         var data = Number(document.getElementById(x + "," + y).children[0].dataset.hp);
         if (blockType == "brick" || blockType == "eagle" || blockType == "block") {
-          console.log(blockType);
           if (blockType == "eagle") {
             _this8.gameOver();
           }
@@ -451,6 +450,26 @@ $(document).ready(function () {
               bul.createBullet();
               var _bullet = document.getElementById("bullet").children[0];
               _this8.interval = setInterval(function () {
+                var destroy = $(".boom").collision(".enemy");
+                var parent = destroy.parent();
+                if (parent[0] !== undefined) {
+                  if (parent[0].id == "enemy0") {
+                    document.getElementById("enemy0").innerHTML = "";
+                    _bullet.parentNode.innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _this8.nextRound();
+                  } else if (parent[0].id == "enemy1") {
+                    document.getElementById("enemy1").innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _bullet.parentNode.innerHTML = "";
+                    _this8.nextRound();
+                  } else if (parent[0].id == "enemy2") {
+                    document.getElementById("enemy2").innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _bullet.parentNode.innerHTML = "";
+                    _this8.nextRound();
+                  }
+                }
                 _bullet.style.left = bul.x * 50 + "px";
                 _bullet.style.top = (bul.y - 1) * 50 + "px";
                 bul.y = bul.y - 1;
@@ -468,7 +487,7 @@ $(document).ready(function () {
                       _this8.fireBool = true;
                       clearInterval(_this8.interval);
                     }
-                  } else {}
+                  }
                 } else {
                   clearInterval(_this8.interval);
                   _this8.fireBool = true;
@@ -486,7 +505,6 @@ $(document).ready(function () {
               _this8.fireBool = true;
               clearInterval(_this8.interval);
             } else {
-
               fire.children[0].className = "land";
             }
           } else {
@@ -496,6 +514,26 @@ $(document).ready(function () {
               _bul.createBullet();
               var _bullet2 = document.getElementById("bullet").children[0];
               _this8.interval = setInterval(function () {
+                var destroy = $(".boom").collision(".enemy");
+                var parent = destroy.parent();
+                if (parent[0] !== undefined) {
+                  if (parent[0].id == "enemy0") {
+                    document.getElementById("enemy0").innerHTML = "";
+                    _bullet2.parentNode.innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _this8.nextRound();
+                  } else if (parent[0].id == "enemy1") {
+                    document.getElementById("enemy1").innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _bullet2.parentNode.innerHTML = "";
+                    _this8.nextRound();
+                  } else if (parent[0].id == "enemy2") {
+                    document.getElementById("enemy2").innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _bullet2.parentNode.innerHTML = "";
+                    _this8.nextRound();
+                  }
+                }
                 _bullet2.style.left = _bul.x * 50 + "px";
                 _bullet2.style.top = (_bul.y + 1) * 50 + "px";
                 _bullet2.style.transform = 'rotate(' + 180 + 'deg)';
@@ -550,6 +588,26 @@ $(document).ready(function () {
               var _bullet3 = document.getElementById("bullet").children[0];
               _bullet3.style.transform = 'rotate(' + 270 + 'deg)';
               _this8.interval = setInterval(function () {
+                var destroy = $(".boom").collision(".enemy");
+                var parent = destroy.parent();
+                if (parent[0] !== undefined) {
+                  if (parent[0].id == "enemy0") {
+                    document.getElementById("enemy0").innerHTML = "";
+                    _bullet3.parentNode.innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _this8.nextRound();
+                  } else if (parent[0].id == "enemy1") {
+                    document.getElementById("enemy1").innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _bullet3.parentNode.innerHTML = "";
+                    _this8.nextRound();
+                  } else if (parent[0].id == "enemy2") {
+                    document.getElementById("enemy2").innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _bullet3.parentNode.innerHTML = "";
+                    _this8.nextRound();
+                  }
+                }
                 _bullet3.style.left = (_bul2.x - 1) * 50 + "px";
                 _bullet3.style.top = _bul2.y * 50 + "px";
                 _bul2.x = _bul2.x - 1;
@@ -594,39 +652,80 @@ $(document).ready(function () {
               var _bullet4 = document.getElementById("bullet").children[0];
               _bullet4.style.transform = 'rotate(' + 90 + 'deg)';
               _this8.interval = setInterval(function () {
-                _bullet4.style.left = (_bul3.x + 1) * 50 + "px";
-                _bullet4.style.top = _bul3.y * 50 + "px";
-                _bul3.x = _bul3.x + 1;
-                if (_bul3.x <= 12) {
-                  if (_this8.fireCheckCollision(_bul3.x, _bul3.y)) {
-                    var checkdmg = document.getElementById(_bul3.x + "," + _bul3.y).children[0].className;
-                    if (checkdmg == "block") {
-                      _bullet4.parentNode.innerHTML = "";
-                      _this8.fireBool = true;
-                      clearInterval(_this8.interval);
-                    } else {
-                      document.getElementById(_bul3.x + "," + _bul3.y).children[0].className = "land";
-                      _bullet4.parentNode.innerHTML = "";
-                      _this8.fireBool = true;
-                      clearInterval(_this8.interval);
-                    }
+                var destroy = $(".boom").collision(".enemy");
+                var parent = destroy.parent();
+                if (parent[0] !== undefined) {
+                  if (parent[0].id == "enemy0") {
+                    document.getElementById("enemy0").innerHTML = "";
+                    _bullet4.parentNode.innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _this8.nextRound();
+                  } else if (parent[0].id == "enemy1") {
+                    document.getElementById("enemy1").innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _bullet4.parentNode.innerHTML = "";
+                    _this8.nextRound();
+                  } else if (parent[0].id == "enemy2") {
+                    document.getElementById("enemy2").innerHTML = "";
+                    _this8.points = _this8.points + 1;
+                    _bullet4.parentNode.innerHTML = "";
+                    _this8.nextRound();
                   }
-                } else if (_bul3.x = 12) {
-                  if (document.getElementById(_bul3.x + "," + _bul3.y).children[0].className == "eagle") {
-                    _this8.gameOver();
-                    clearInterval(_this8.interval);
-                  }
-                  document.getElementById(_bul3.x + "," + _bul3.y).children[0].className = "land";
-                  _bullet4.parentNode.innerHTML = "";
-                  _this8.fireBool = true;
-                  clearInterval(_this8.interval);
                 } else {
-                  clearInterval(_this8.interval);
-                  _this8.fireBool = true;
+                  _bullet4.style.left = (_bul3.x + 1) * 50 + "px";
+                  _bullet4.style.top = _bul3.y * 50 + "px";
+                  _bul3.x = _bul3.x + 1;
+                  if (_bul3.x < 12) {
+                    if (_this8.fireCheckCollision(_bul3.x, _bul3.y)) {
+                      var checkdmg = document.getElementById(_bul3.x + "," + _bul3.y).children[0].className;
+                      if (checkdmg == "block") {
+                        _bullet4.parentNode.innerHTML = "";
+                        _this8.fireBool = true;
+                        clearInterval(_this8.interval);
+                      } else {
+                        document.getElementById(_bul3.x + "," + _bul3.y).children[0].className = "land";
+                        _bullet4.parentNode.innerHTML = "";
+                        _this8.fireBool = true;
+                        clearInterval(_this8.interval);
+                      }
+                    }
+                  } else {
+                    clearInterval(_this8.interval);
+                    _this8.fireBool = true;
+                  }
                 }
               }, 250);
             }
           }
+        }
+      };
+
+      _this8.win = function () {
+        var win = document.querySelector("#game");
+        win.innerHTML = "";
+        win.className = "win";
+      };
+
+      _this8.nextRound = function () {
+        _this8.fireBool = true;
+        var points = _this8.points % 3;
+        if (points == 0) {
+          for (var i = 1; i < 99999; i++) {
+            window.clearInterval(i);
+          }
+          _this8.respawn = _this8.respawn + 1;
+          var enemy0 = new Enemy(0, _this8.respawn, 0);
+          enemy0.createEnemy();
+          var enemy1 = new Enemy(6, _this8.respawn, 1);
+          enemy1.createEnemy();
+          var enemy2 = new Enemy(12, _this8.respawn, 2);
+          enemy2.createEnemy();
+          if (_this8.respawn == 2) {
+            _this8.win();
+          }
+          enemy0.moveTank();
+          enemy1.moveTank();
+          enemy2.moveTank();
         }
       };
 
@@ -637,6 +736,8 @@ $(document).ready(function () {
       _this8.direction = "up";
       _this8.dmg = 1;
       _this8.fireBool = true;
+      _this8.respawn = 0;
+      _this8.points = 0;
       return _this8;
     }
     /////////////////////////
@@ -706,7 +807,6 @@ $(document).ready(function () {
       var blockType = document.getElementById(x + "," + y).children[0].className;
       var data = Number(document.getElementById(x + "," + y).children[0].dataset.hp);
       if (blockType == "brick" || blockType == "eagle" || blockType == "block") {
-        console.log(blockType);
         if (blockType == "eagle") {
           _this10.gameOver();
         }
@@ -738,6 +838,10 @@ $(document).ready(function () {
       if (show.children[0].className == "eagle") {
         _this10.gameOver();
       }
+      var destroy = $(".enemy").collision(".myTank");
+      if (destroy[0].className == "myTank") {
+        _this10.gameOver();
+      }
     };
 
     this.moveUp = function () {
@@ -752,6 +856,10 @@ $(document).ready(function () {
         show.children[0].className = "land";
       }
       if (show.children[0].className == "eagle") {
+        _this10.gameOver();
+      }
+      var destroy = $(".enemy").collision(".myTank");
+      if (destroy[0].className == "myTank") {
         _this10.gameOver();
       }
     };
@@ -771,6 +879,10 @@ $(document).ready(function () {
       if (show.children[0].className == "eagle") {
         _this10.gameOver();
       }
+      var destroy = $(".enemy").collision(".myTank");
+      if (destroy[0].className == "myTank") {
+        _this10.gameOver();
+      }
     };
 
     this.moveRight = function () {
@@ -786,6 +898,10 @@ $(document).ready(function () {
         show.children[0].className = "land";
       }
       if (show.children[0].className == "eagle") {
+        _this10.gameOver();
+      }
+      var destroy = $(".enemy").collision(".myTank");
+      if (destroy[0].className == "myTank") {
         _this10.gameOver();
       }
     };
@@ -859,15 +975,11 @@ $(document).ready(function () {
 
   $(document).on("keydown", function (event) {
     myTank.moveTank(event);
-    enemy0.moveTank();
-    enemy1.moveTank();
-    enemy2.moveTank();
-    // var xd = ($(".myTank").collision(".enemy"));
-    // if(xd[0].className)
-    // {
-    //   console.log(xd[0].className);
-    // }
   });
+
+  enemy0.moveTank();
+  enemy1.moveTank();
+  enemy2.moveTank();
 });
 
 /***/ })
