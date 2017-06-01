@@ -607,15 +607,17 @@ $(document).ready(()=>{
       for (var i = 1; i < 99999; i++){
         window.clearInterval(i);
       }
-      console.log("win");
+      // var win = document.querySelector("#game")
+      // win.innerHTML = "";
+      // win.className="win"
+      // var youwin = document.createElement("iframe");
+      // youwin.style.width = "100vw";
+      // youwin.style.height = "100vh";
+      // youwin.src = "http://disco.fleo.se/YouWin";
+      // win.appendChild(youwin);
       var win = document.querySelector("#game")
       win.innerHTML = "";
-      win.className="win"
-      var youwin = document.createElement("iframe");
-      youwin.style.width = "100vw";
-      youwin.style.height = "100vh";
-      youwin.src = "http://disco.fleo.se/YouWin";
-      win.appendChild(youwin);
+      win.innerText = "YOU WIN"
     }
     nextRound=() =>{
       this.fireBool = true;
