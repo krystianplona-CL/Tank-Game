@@ -27,7 +27,7 @@
 .brick{
   width: 50px;
   height: 50px;
-  background-image: url("../brick.png");
+  background-image: url("../images/brick.png");
   background-size: cover;
 }
 
@@ -40,33 +40,35 @@
 .water{
   width: 50px;
   height: 50px;
-  background-image: url("../water.png");
+  background-image: url("../images/water.png");
   background-size: cover;
 }
 
 .eagle{
   width: 50px;
   height: 50px;
-  background-color: hotpink;
+  background-image: url("../images/Eagle.png");
+  background-size: cover;
+  background-color: black;
 }
 
 .green{
   width: 50px;
   height: 50px;
-  background-image: url("../grass2.png");
+  background-image: url("../images/grass2.png");
   z-index: 1000;
   opacity: 0.9;
 }
 .myTank{
   width: 50px;
   height: 50px;
-  background-image: url("../tank.png");
+  background-image: url("../images/tank.png");
   background-position: center;
 }
 .boom{
   width:50px;
   height: 50px;
-  background-image: url("../bullet.png");
+  background-image: url("../images/bullet.png");
   background-position: center;
   background-repeat: no-repeat;
   z-index: 1000;
@@ -74,7 +76,7 @@
 .enemy{
   width: 50px;
   height: 50px;
-  background-image: url("../tank.png");
+  background-image: url("../images/tank.png");
   background-position: center;
   transform: rotate(180deg);
 }

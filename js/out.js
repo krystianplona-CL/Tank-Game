@@ -90,7 +90,7 @@ $(document).ready(function () {
 
   var game = document.querySelector(".game");
 
-  var map = [[LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, WATER, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, BRICK, EAGLE], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, GREEN, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND]];
+  var map = [[LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, GREEN, LAND, BRICK, BRICK, BLOCK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, GREEN, LAND, LAND, LAND, BLOCK, LAND, BRICK, EAGLE], [LAND, BRICK, BRICK, BRICK, BRICK, GREEN, LAND, BRICK, BRICK, BLOCK, LAND, BRICK, BRICK], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND], [LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND, BRICK, BRICK, BRICK, BRICK, BRICK, LAND], [LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND, LAND]];
 
   function showMap() {
     var position = 0;
@@ -360,6 +360,9 @@ $(document).ready(function () {
         over.innerText = "GAME OVER";
         game.innerHTML = "";
         game.appendChild(over);
+        for (var i = 1; i < 99999; i++) {
+          window.clearInterval(i);
+        }
       };
 
       _this8.moveUp = function () {
@@ -604,6 +607,7 @@ $(document).ready(function () {
                 var destroy = $(".boom").collision(".enemy");
                 var parent = destroy.parent();
                 if (parent[0] !== undefined) {
+                  console.log("next round");
                   if (parent[0].id == "enemy0") {
                     document.getElementById("enemy0").innerHTML = "";
                     _bullet3.parentNode.innerHTML = "";
@@ -725,6 +729,9 @@ $(document).ready(function () {
         for (var i = 1; i < 99999; i++) {
           window.clearInterval(i);
         }
+        enemy0 = null;
+        enemy1 = null;
+        enemy2 = null;
         window.location = "http://disco.fleo.se/YouWin";
         // var win = document.querySelector("#game")
         // win.innerHTML = "";
@@ -863,6 +870,9 @@ $(document).ready(function () {
     };
 
     this.gameOver = function () {
+      for (var i = 1; i < 99999; i++) {
+        window.clearInterval(i);
+      }
       var over = document.createElement("div");
       over.className = "gameOver";
       over.innerText = "GAME OVER";
@@ -889,10 +899,12 @@ $(document).ready(function () {
         }
       }
       var destroy = $(".enemy").collision(".myTank");
-      var ifundefined = destroy.className;
+      var ifundefined = destroy[0];
       if (ifundefined !== undefined) {
-        if (destroy[0].className == "myTank") {
-          _this10.gameOver();
+        if (ifundefined.className !== undefined) {
+          if (destroy[0].className == "myTank") {
+            _this10.gameOver();
+          }
         }
       }
     };
@@ -916,7 +928,7 @@ $(document).ready(function () {
         }
       }
       var destroy = $(".enemy").collision(".myTank");
-      var ifundefined = destroy.className;
+      var ifundefined = destroy[0];
       if (ifundefined !== undefined) {
         if (destroy[0].className == "myTank") {
           _this10.gameOver();
