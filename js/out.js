@@ -753,7 +753,7 @@ $(document).ready(function () {
           enemy1.createEnemy();
           var enemy2 = new Enemy(12, _this8.respawn, 2);
           enemy2.createEnemy();
-          if (_this8.respawn == 5) {
+          if (_this8.respawn == 1) {
             _this8.win();
           }
           enemy0.moveTank();

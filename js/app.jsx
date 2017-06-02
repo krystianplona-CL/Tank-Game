@@ -660,7 +660,7 @@ $(document).ready(()=>{
         enemy1.createEnemy();
         var enemy2 = new Enemy(12,this.respawn,2);
         enemy2.createEnemy();
-        if(this.respawn == 5){
+        if(this.respawn == 1){
           this.win();
         }
         enemy0.moveTank();
