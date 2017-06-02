@@ -25,7 +25,6 @@ $(document).ready(()=>{
     [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND]
   ];
 
-
   function showMap(){
     let position = 0;
     for (var i = 0; i < 13; i++) {
@@ -37,7 +36,6 @@ $(document).ready(()=>{
       }
     }
   }
-  showMap();
 
   class Block{
     constructor(x,y){
@@ -189,6 +187,7 @@ $(document).ready(()=>{
       this.respawn = 0;
       this.points = 0;
     }
+    /////////////////////////
     createPlayer=()=>{
       let player = document.createElement('div');
       player.className = "myTank";
@@ -200,15 +199,23 @@ $(document).ready(()=>{
       player.style.zIndex = 1;
       document.getElementById("player").appendChild(player);
     }
+    /////////////////////////
     checkCollision = (x,y) =>{
-      var blockType = document.getElementById(x+","+y).children[0].className;
-      if(blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water"){
-        return false
+      let ifundefined = document.getElementById(x+","+y);
+      if(ifundefined !== undefined && ifundefined !== null){
+        var blockType = document.getElementById(x+","+y).children[0].className;
+        if(blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water"){
+          return false
+        }
+        else{
+          return true
+        }
       }
-      else{
+      else {
         return true
       }
     }
+    /////////////////////////
     fireCheckCollision = (x,y) =>{
       var blockType = document.getElementById(x+","+y).children[0].className;
       var data = Number(document.getElementById(x+","+y).children[0].dataset.hp);
@@ -243,7 +250,7 @@ $(document).ready(()=>{
         this.y-=1;
       }
     }
-    //////////
+    /////////////////////////
     moveDown=() => {
       this.direction = "down";
       let up = document.getElementById("player").children[0];
@@ -256,7 +263,7 @@ $(document).ready(()=>{
         this.y+=1;
       }
     }
-    ////////
+    /////////////////////////
     moveLeft = () => {
       this.direction = "left";
       var show = document.getElementById((this.x-1)+","+this.y);
@@ -269,7 +276,7 @@ $(document).ready(()=>{
         this.x-=1;
       }
     }
-    ////////
+    /////////////////////////
     moveRight=()=>{
       this.direction = "right";
       var show = document.getElementById((this.x+1)+","+this.y);
@@ -282,7 +289,7 @@ $(document).ready(()=>{
         this.x+=1;
       }
     }
-    ///////
+    ////////////////////////
     moveTank = (event) => {
       switch(event.which){
         case 37:
@@ -302,7 +309,7 @@ $(document).ready(()=>{
           break;
       }
     }
-    ///////
+    ////////////////////////
     fireTank=()=>{
       if(this.direction == "up"){
         let dir = String((this.x)+","+(this.y-1));
@@ -401,7 +408,10 @@ $(document).ready(()=>{
               if (parent[0] !== undefined) {
                 if(parent[0].id == "enemy0"){
                   document.getElementById("enemy0").innerHTML = "";
-                  bullet.parentNode.innerHTML = "";
+                  if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                    bullet.parentNode.innerHTML = "";
+                    clearInterval(enemy1.interval);
+                  }
                   this.points = this.points+1;
                   this.nextRound();
                 }
@@ -426,13 +436,17 @@ $(document).ready(()=>{
                 if(this.fireCheckCollision(bul.x, bul.y)){
                   var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
                   if(checkdmg == "block"){
-                    bullet.parentNode.innerHTML = "";
+                    if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                      bullet.parentNode.innerHTML = "";
+                    }
                     this.fireBool = true;
                     clearInterval(this.interval);
                   }
                   else{
                     document.getElementById(bul.x+","+bul.y).children[0].className = "land";
-                    bullet.parentNode.innerHTML = "";
+                    if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                      bullet.parentNode.innerHTML = "";
+                    }
                     this.fireBool = true;
                     clearInterval(this.interval);
                   }
@@ -444,7 +458,9 @@ $(document).ready(()=>{
                   clearInterval(this.interval);
                 }
                 document.getElementById(bul.x+","+bul.y).children[0].className = "land";
-                bullet.parentNode.innerHTML = "";
+                if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                  bullet.parentNode.innerHTML = "";
+                }
                 this.fireBool = true;
                 clearInterval(this.interval)
               }
@@ -507,13 +523,17 @@ $(document).ready(()=>{
                 if(this.fireCheckCollision(bul.x, bul.y)){
                   var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
                   if(checkdmg == "block"){
-                    bullet.parentNode.innerHTML = "";
+                    if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                      bullet.parentNode.innerHTML = "";
+                    }
                     this.fireBool = true;
                     clearInterval(this.interval);
                   }
                   else{
                     document.getElementById(bul.x+","+bul.y).children[0].className = "land";
-                    bullet.parentNode.innerHTML = "";
+                    if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                      bullet.parentNode.innerHTML = "";
+                    }
                     this.fireBool = true;
                     clearInterval(this.interval);
                   }
@@ -580,13 +600,17 @@ $(document).ready(()=>{
                   if(this.fireCheckCollision(bul.x, bul.y)){
                     var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
                     if(checkdmg == "block"){
-                      bullet.parentNode.innerHTML = "";
+                      if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                        bullet.parentNode.innerHTML = "";
+                      }
                       this.fireBool = true;
                       clearInterval(this.interval);
                     }
                     else{
                       document.getElementById(bul.x+","+bul.y).children[0].className = "land";
-                      bullet.parentNode.innerHTML = "";
+                      if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                        bullet.parentNode.innerHTML = "";
+                      }
                       this.fireBool = true;
                       clearInterval(this.interval);
                     }
@@ -603,10 +627,12 @@ $(document).ready(()=>{
         }
       }
     }
+    ////////////////////////
     win = () =>{
       for (var i = 1; i < 99999; i++){
         window.clearInterval(i);
       }
+      window.location = "http://disco.fleo.se/YouWin";
       // var win = document.querySelector("#game")
       // win.innerHTML = "";
       // win.className="win"
@@ -615,10 +641,11 @@ $(document).ready(()=>{
       // youwin.style.height = "100vh";
       // youwin.src = "http://disco.fleo.se/YouWin";
       // win.appendChild(youwin);
-      var win = document.querySelector("#game")
-      win.innerHTML = "";
-      win.innerText = "YOU WIN"
+      // var win = document.querySelector("#game")
+      // win.innerHTML = "";
+      // win.innerText = "YOU WIN"
     }
+    ////////////////////////
     nextRound=() =>{
       this.fireBool = true;
       let points = this.points % 3;
@@ -664,12 +691,15 @@ $(document).ready(()=>{
       document.getElementById(name).appendChild(enemy);
     }
     checkCollision = (x,y) =>{
-      var blockType = document.getElementById(x+","+y).children[0].className;
-      if(blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water"){
-        return false
-      }
-      else{
-        return true
+      let ifblock = document.getElementById(x+","+y);
+      if(ifblock !== undefined && ifblock !== null){
+        var blockType = document.getElementById(x+","+y).children[0].className;
+        if(blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water"){
+          return false
+        }
+        else{
+          return true
+        }
       }
     }
     fireCheckCollision = (x,y) =>{
@@ -694,80 +724,108 @@ $(document).ready(()=>{
     }
     moveDown=() => {
       let down = document.getElementById("enemy"+this.z).children[0];
-      down.style.transform  = 'rotate('+180+'deg)';
-      var show = document.getElementById(this.x+","+(this.y+1));
-      if(this.checkCollision(this.x,this.y+1) && this.y < 12){
-        down.style.top = (this.y*50 + 50)+ "px";
-        this.y+=1;
-      }
-      if (show.children[0].className == "brick"){
-        show.children[0].className = "land";
-      }
-      if (show.children[0].className == "eagle"){
-        this.gameOver();
+      if(down !== undefined && down !== null){
+        down.style.transform  = 'rotate('+180+'deg)';
+        var show = document.getElementById(this.x+","+(this.y+1));
+        if(show !== undefined && show !== null){
+          if(this.checkCollision(this.x,this.y+1) && this.y < 12){
+            down.style.top = (this.y*50 + 50)+ "px";
+            this.y+=1;
+          }
+          if (show.children[0].className == "brick"){
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "eagle"){
+            this.gameOver();
+          }
+        }
       }
       var destroy = ($(".enemy").collision(".myTank"));
-      if(destroy[0].className == "myTank"){
-        this.gameOver();
+      let ifundefined = destroy.className;
+      if(ifundefined !== undefined){
+        if(destroy[0].className == "myTank"){
+          this.gameOver();
+        }
       }
     }
     moveUp = () => {
-      var show = document.getElementById(this.x+","+(this.y-1));
       let up = document.getElementById("enemy"+this.z).children[0];
-      up.style.transform  = 'rotate('+0+'deg)';
-      if(this.checkCollision(this.x,this.y-1) && this.y > 0){
-        up.style.top = (this.y*50 - 50)+ "px";
-        this.y-=1;
-      }
-      if (show.children[0].className == "brick"){
-        show.children[0].className = "land";
-      }
-      if (show.children[0].className == "eagle"){
-        this.gameOver();
+      if(up !== undefined && up !== null){
+        up.style.transform  = 'rotate('+0+'deg)';
+        var show = document.getElementById(this.x+","+(this.y-1));
+        if(show !== undefined && show !== null){
+          if(this.checkCollision(this.x,this.y-1) && this.y > 0){
+            up.style.top = (this.y*50 - 50)+ "px";
+            this.y-=1;
+          }
+          if (show.children[0].className == "brick"){
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "eagle"){
+            this.gameOver();
+          }
+        }
       }
       var destroy = ($(".enemy").collision(".myTank"));
-      if(destroy[0].className == "myTank"){
-        this.gameOver();
+      let ifundefined = destroy.className;
+      if(ifundefined !== undefined){
+        if(destroy[0].className == "myTank"){
+          this.gameOver();
+        }
       }
     }
     moveLeft = () => {
-      var show = document.getElementById((this.x-1)+","+this.y);
       let left = document.getElementById("enemy"+this.z).children[0];
-      left.style.transform  = 'rotate('+270+'deg)';
-      if(this.checkCollision(this.x-1,this.y) && this.x > 0){
-        left.style.left = (this.x*50 - 50)+ "px";
-        this.x-=1;
-        show.className.children[0] = "land";
-      }
-      if (show.children[0].className == "brick"){
-        show.children[0].className = "land";
-      }
-      if (show.children[0].className == "eagle"){
-        this.gameOver();
+      if(left !== undefined && left !== null){
+        left.style.transform  = 'rotate('+270+'deg)';
+        var show = document.getElementById((this.x-1)+","+this.y);
+        if(show !== undefined && show !== null){
+          if(this.checkCollision(this.x-1,this.y) && this.x > 0){
+            left.style.left = (this.x*50 - 50)+ "px";
+            this.x-=1;
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "brick"){
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "eagle"){
+            this.gameOver();
+          }
+        }
       }
       var destroy = ($(".enemy").collision(".myTank"));
-      if(destroy[0].className == "myTank"){
-        this.gameOver();
+      let ifundefined = destroy.className;
+      if(ifundefined !== undefined){
+        if(destroy[0].className == "myTank"){
+          this.gameOver();
+        }
       }
     }
     moveRight = () => {
-      var show = document.getElementById((this.x+1)+","+this.y);
       let right = document.getElementById("enemy"+this.z).children[0];
-      right.style.transform  = 'rotate('+90+'deg)';
-      if(this.checkCollision(this.x+1,this.y) && this.x < 12){
-        right.style.left = (this.x*50 + 50)+ "px";
-        this.x+=1;
-        show.className.children[0] = "land";
-      }
-      if (show.children[0].className == "brick"){
-        show.children[0].className = "land";
-      }
-      if (show.children[0].className == "eagle"){
-        this.gameOver();
+      if(right !== undefined && right !== null){
+        right.style.transform  = 'rotate('+90+'deg)';
+        var show = document.getElementById((this.x+1)+","+this.y);
+        if(show !== undefined && show !== null){
+          if(this.checkCollision(this.x+1,this.y) && this.x < 12){
+            right.style.left = (this.x*50 + 50)+ "px";
+            this.x+=1;
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "brick"){
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "eagle"){
+            this.gameOver();
+          }
+        }
       }
       var destroy = ($(".enemy").collision(".myTank"));
-      if(destroy[0].className == "myTank"){
-        this.gameOver();
+      let ifundefined = destroy.className;
+      if(ifundefined !== undefined){
+        if(destroy[0].className == "myTank"){
+          this.gameOver();
+        }
       }
     }
     moveTank=()=>{
@@ -791,6 +849,7 @@ $(document).ready(()=>{
       },1000)
     }
   }
+
   function loadMap(){
     var block;
     for (let i = 0; i < 13; i++) {
@@ -828,11 +887,12 @@ $(document).ready(()=>{
     }
   }
 
+  showMap();
+
   loadMap();
 
   var myTank = new Player();
   myTank.createPlayer();
-
 
   var enemy0 = new Enemy(0,0,0);
   enemy0.createEnemy();
@@ -841,12 +901,12 @@ $(document).ready(()=>{
   var enemy2 = new Enemy(12,0,2);
   enemy2.createEnemy();
 
-  $(document).on("keydown", (event)=>{
-    myTank.moveTank(event);
-  })
-
   enemy0.moveTank();
   enemy1.moveTank();
   enemy2.moveTank();
+
+  $(document).on("keydown", (event)=>{
+    myTank.moveTank(event);
+  })
 
 })

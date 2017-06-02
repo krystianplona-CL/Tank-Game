@@ -103,7 +103,6 @@ $(document).ready(function () {
       }
     }
   }
-  showMap();
 
   var Block = function Block(x, y) {
     _classCallCheck(this, Block);
@@ -329,9 +328,14 @@ $(document).ready(function () {
       };
 
       _this8.checkCollision = function (x, y) {
-        var blockType = document.getElementById(x + "," + y).children[0].className;
-        if (blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water") {
-          return false;
+        var ifundefined = document.getElementById(x + "," + y);
+        if (ifundefined !== undefined && ifundefined !== null) {
+          var blockType = document.getElementById(x + "," + y).children[0].className;
+          if (blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water") {
+            return false;
+          } else {
+            return true;
+          }
         } else {
           return true;
         }
@@ -519,7 +523,10 @@ $(document).ready(function () {
                 if (parent[0] !== undefined) {
                   if (parent[0].id == "enemy0") {
                     document.getElementById("enemy0").innerHTML = "";
-                    _bullet2.parentNode.innerHTML = "";
+                    if (_bullet2.parentNode !== undefined && _bullet2.parentNode !== null) {
+                      _bullet2.parentNode.innerHTML = "";
+                      clearInterval(enemy1.interval);
+                    }
                     _this8.points = _this8.points + 1;
                     _this8.nextRound();
                   } else if (parent[0].id == "enemy1") {
@@ -542,12 +549,16 @@ $(document).ready(function () {
                   if (_this8.fireCheckCollision(_bul.x, _bul.y)) {
                     var checkdmg = document.getElementById(_bul.x + "," + _bul.y).children[0].className;
                     if (checkdmg == "block") {
-                      _bullet2.parentNode.innerHTML = "";
+                      if (_bullet2.parentNode !== undefined && _bullet2.parentNode !== null) {
+                        _bullet2.parentNode.innerHTML = "";
+                      }
                       _this8.fireBool = true;
                       clearInterval(_this8.interval);
                     } else {
                       document.getElementById(_bul.x + "," + _bul.y).children[0].className = "land";
-                      _bullet2.parentNode.innerHTML = "";
+                      if (_bullet2.parentNode !== undefined && _bullet2.parentNode !== null) {
+                        _bullet2.parentNode.innerHTML = "";
+                      }
                       _this8.fireBool = true;
                       clearInterval(_this8.interval);
                     }
@@ -558,7 +569,9 @@ $(document).ready(function () {
                     clearInterval(_this8.interval);
                   }
                   document.getElementById(_bul.x + "," + _bul.y).children[0].className = "land";
-                  _bullet2.parentNode.innerHTML = "";
+                  if (_bullet2.parentNode !== undefined && _bullet2.parentNode !== null) {
+                    _bullet2.parentNode.innerHTML = "";
+                  }
                   _this8.fireBool = true;
                   clearInterval(_this8.interval);
                 } else {
@@ -615,12 +628,16 @@ $(document).ready(function () {
                   if (_this8.fireCheckCollision(_bul2.x, _bul2.y)) {
                     var checkdmg = document.getElementById(_bul2.x + "," + _bul2.y).children[0].className;
                     if (checkdmg == "block") {
-                      _bullet3.parentNode.innerHTML = "";
+                      if (_bullet3.parentNode !== undefined && _bullet3.parentNode !== null) {
+                        _bullet3.parentNode.innerHTML = "";
+                      }
                       _this8.fireBool = true;
                       clearInterval(_this8.interval);
                     } else {
                       document.getElementById(_bul2.x + "," + _bul2.y).children[0].className = "land";
-                      _bullet3.parentNode.innerHTML = "";
+                      if (_bullet3.parentNode !== undefined && _bullet3.parentNode !== null) {
+                        _bullet3.parentNode.innerHTML = "";
+                      }
                       _this8.fireBool = true;
                       clearInterval(_this8.interval);
                     }
@@ -679,12 +696,16 @@ $(document).ready(function () {
                     if (_this8.fireCheckCollision(_bul3.x, _bul3.y)) {
                       var checkdmg = document.getElementById(_bul3.x + "," + _bul3.y).children[0].className;
                       if (checkdmg == "block") {
-                        _bullet4.parentNode.innerHTML = "";
+                        if (_bullet4.parentNode !== undefined && _bullet4.parentNode !== null) {
+                          _bullet4.parentNode.innerHTML = "";
+                        }
                         _this8.fireBool = true;
                         clearInterval(_this8.interval);
                       } else {
                         document.getElementById(_bul3.x + "," + _bul3.y).children[0].className = "land";
-                        _bullet4.parentNode.innerHTML = "";
+                        if (_bullet4.parentNode !== undefined && _bullet4.parentNode !== null) {
+                          _bullet4.parentNode.innerHTML = "";
+                        }
                         _this8.fireBool = true;
                         clearInterval(_this8.interval);
                       }
@@ -704,6 +725,7 @@ $(document).ready(function () {
         for (var i = 1; i < 99999; i++) {
           window.clearInterval(i);
         }
+        window.location = "http://disco.fleo.se/YouWin";
         // var win = document.querySelector("#game")
         // win.innerHTML = "";
         // win.className="win"
@@ -712,9 +734,9 @@ $(document).ready(function () {
         // youwin.style.height = "100vh";
         // youwin.src = "http://disco.fleo.se/YouWin";
         // win.appendChild(youwin);
-        var win = document.querySelector("#game");
-        win.innerHTML = "";
-        win.innerText = "YOU WIN";
+        // var win = document.querySelector("#game")
+        // win.innerHTML = "";
+        // win.innerText = "YOU WIN"
       };
 
       _this8.nextRound = function () {
@@ -755,15 +777,25 @@ $(document).ready(function () {
 
     /////////////////////////
 
-    //////////
+    /////////////////////////
 
-    ////////
+    /////////////////////////
 
-    ////////
+    /////////////////////////
 
-    ///////
+    /////////////////////////
 
-    ///////
+    /////////////////////////
+
+    /////////////////////////
+
+    ////////////////////////
+
+    ////////////////////////
+
+    ////////////////////////
+
+    ////////////////////////
 
 
     return Player;
@@ -806,11 +838,14 @@ $(document).ready(function () {
     };
 
     this.checkCollision = function (x, y) {
-      var blockType = document.getElementById(x + "," + y).children[0].className;
-      if (blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water") {
-        return false;
-      } else {
-        return true;
+      var ifblock = document.getElementById(x + "," + y);
+      if (ifblock !== undefined && ifblock !== null) {
+        var blockType = document.getElementById(x + "," + y).children[0].className;
+        if (blockType == "brick" || blockType == "block" || blockType == "eagle" || blockType == "water") {
+          return false;
+        } else {
+          return true;
+        }
       }
     };
 
@@ -837,83 +872,111 @@ $(document).ready(function () {
 
     this.moveDown = function () {
       var down = document.getElementById("enemy" + _this10.z).children[0];
-      down.style.transform = 'rotate(' + 180 + 'deg)';
-      var show = document.getElementById(_this10.x + "," + (_this10.y + 1));
-      if (_this10.checkCollision(_this10.x, _this10.y + 1) && _this10.y < 12) {
-        down.style.top = _this10.y * 50 + 50 + "px";
-        _this10.y += 1;
-      }
-      if (show.children[0].className == "brick") {
-        show.children[0].className = "land";
-      }
-      if (show.children[0].className == "eagle") {
-        _this10.gameOver();
+      if (down !== undefined && down !== null) {
+        down.style.transform = 'rotate(' + 180 + 'deg)';
+        var show = document.getElementById(_this10.x + "," + (_this10.y + 1));
+        if (show !== undefined && show !== null) {
+          if (_this10.checkCollision(_this10.x, _this10.y + 1) && _this10.y < 12) {
+            down.style.top = _this10.y * 50 + 50 + "px";
+            _this10.y += 1;
+          }
+          if (show.children[0].className == "brick") {
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "eagle") {
+            _this10.gameOver();
+          }
+        }
       }
       var destroy = $(".enemy").collision(".myTank");
-      if (destroy[0].className == "myTank") {
-        _this10.gameOver();
+      var ifundefined = destroy.className;
+      if (ifundefined !== undefined) {
+        if (destroy[0].className == "myTank") {
+          _this10.gameOver();
+        }
       }
     };
 
     this.moveUp = function () {
-      var show = document.getElementById(_this10.x + "," + (_this10.y - 1));
       var up = document.getElementById("enemy" + _this10.z).children[0];
-      up.style.transform = 'rotate(' + 0 + 'deg)';
-      if (_this10.checkCollision(_this10.x, _this10.y - 1) && _this10.y > 0) {
-        up.style.top = _this10.y * 50 - 50 + "px";
-        _this10.y -= 1;
-      }
-      if (show.children[0].className == "brick") {
-        show.children[0].className = "land";
-      }
-      if (show.children[0].className == "eagle") {
-        _this10.gameOver();
+      if (up !== undefined && up !== null) {
+        up.style.transform = 'rotate(' + 0 + 'deg)';
+        var show = document.getElementById(_this10.x + "," + (_this10.y - 1));
+        if (show !== undefined && show !== null) {
+          if (_this10.checkCollision(_this10.x, _this10.y - 1) && _this10.y > 0) {
+            up.style.top = _this10.y * 50 - 50 + "px";
+            _this10.y -= 1;
+          }
+          if (show.children[0].className == "brick") {
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "eagle") {
+            _this10.gameOver();
+          }
+        }
       }
       var destroy = $(".enemy").collision(".myTank");
-      if (destroy[0].className == "myTank") {
-        _this10.gameOver();
+      var ifundefined = destroy.className;
+      if (ifundefined !== undefined) {
+        if (destroy[0].className == "myTank") {
+          _this10.gameOver();
+        }
       }
     };
 
     this.moveLeft = function () {
-      var show = document.getElementById(_this10.x - 1 + "," + _this10.y);
       var left = document.getElementById("enemy" + _this10.z).children[0];
-      left.style.transform = 'rotate(' + 270 + 'deg)';
-      if (_this10.checkCollision(_this10.x - 1, _this10.y) && _this10.x > 0) {
-        left.style.left = _this10.x * 50 - 50 + "px";
-        _this10.x -= 1;
-        show.className.children[0] = "land";
-      }
-      if (show.children[0].className == "brick") {
-        show.children[0].className = "land";
-      }
-      if (show.children[0].className == "eagle") {
-        _this10.gameOver();
+      if (left !== undefined && left !== null) {
+        left.style.transform = 'rotate(' + 270 + 'deg)';
+        var show = document.getElementById(_this10.x - 1 + "," + _this10.y);
+        if (show !== undefined && show !== null) {
+          if (_this10.checkCollision(_this10.x - 1, _this10.y) && _this10.x > 0) {
+            left.style.left = _this10.x * 50 - 50 + "px";
+            _this10.x -= 1;
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "brick") {
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "eagle") {
+            _this10.gameOver();
+          }
+        }
       }
       var destroy = $(".enemy").collision(".myTank");
-      if (destroy[0].className == "myTank") {
-        _this10.gameOver();
+      var ifundefined = destroy.className;
+      if (ifundefined !== undefined) {
+        if (destroy[0].className == "myTank") {
+          _this10.gameOver();
+        }
       }
     };
 
     this.moveRight = function () {
-      var show = document.getElementById(_this10.x + 1 + "," + _this10.y);
       var right = document.getElementById("enemy" + _this10.z).children[0];
-      right.style.transform = 'rotate(' + 90 + 'deg)';
-      if (_this10.checkCollision(_this10.x + 1, _this10.y) && _this10.x < 12) {
-        right.style.left = _this10.x * 50 + 50 + "px";
-        _this10.x += 1;
-        show.className.children[0] = "land";
-      }
-      if (show.children[0].className == "brick") {
-        show.children[0].className = "land";
-      }
-      if (show.children[0].className == "eagle") {
-        _this10.gameOver();
+      if (right !== undefined && right !== null) {
+        right.style.transform = 'rotate(' + 90 + 'deg)';
+        var show = document.getElementById(_this10.x + 1 + "," + _this10.y);
+        if (show !== undefined && show !== null) {
+          if (_this10.checkCollision(_this10.x + 1, _this10.y) && _this10.x < 12) {
+            right.style.left = _this10.x * 50 + 50 + "px";
+            _this10.x += 1;
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "brick") {
+            show.children[0].className = "land";
+          }
+          if (show.children[0].className == "eagle") {
+            _this10.gameOver();
+          }
+        }
       }
       var destroy = $(".enemy").collision(".myTank");
-      if (destroy[0].className == "myTank") {
-        _this10.gameOver();
+      var ifundefined = destroy.className;
+      if (ifundefined !== undefined) {
+        if (destroy[0].className == "myTank") {
+          _this10.gameOver();
+        }
       }
     };
 
@@ -972,6 +1035,8 @@ $(document).ready(function () {
     }
   }
 
+  showMap();
+
   loadMap();
 
   var myTank = new Player();
@@ -984,13 +1049,13 @@ $(document).ready(function () {
   var enemy2 = new Enemy(12, 0, 2);
   enemy2.createEnemy();
 
-  $(document).on("keydown", function (event) {
-    myTank.moveTank(event);
-  });
-
   enemy0.moveTank();
   enemy1.moveTank();
   enemy2.moveTank();
+
+  $(document).on("keydown", function (event) {
+    myTank.moveTank(event);
+  });
 });
 
 /***/ })
