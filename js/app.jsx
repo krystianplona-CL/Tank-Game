@@ -12,7 +12,7 @@ $(document).ready(()=>{
   var map = [
     [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND],
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND],
-    [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND],
+    [LAND,LAND,LAND,LAND,WATER,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND],
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND],
     [LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND,LAND],
     [LAND,BRICK,BRICK,BRICK,BRICK,BRICK,LAND,BRICK,BRICK,BRICK,LAND,BRICK,BRICK],
@@ -633,7 +633,7 @@ $(document).ready(()=>{
         enemy1.createEnemy();
         var enemy2 = new Enemy(12,this.respawn,2);
         enemy2.createEnemy();
-        if(this.respawn == 1){
+        if(this.respawn == 5){
           this.win();
         }
         enemy0.moveTank();
