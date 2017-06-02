@@ -1,3 +1,3 @@
 # Tank-Game
-Moveing: arrows
+Moving: arrows
 Shoot: "a"
