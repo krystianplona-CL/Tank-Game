@@ -342,18 +342,21 @@ $(document).ready(()=>{
                   document.getElementById("enemy0").innerHTML = "";
                   bullet.parentNode.innerHTML = "";
                   this.points = this.points+1;
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
                 else if (parent[0].id == "enemy1"){
                   document.getElementById("enemy1").innerHTML = "";
                   this.points = this.points+1;
                   bullet.parentNode.innerHTML = "";
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
                 else if (parent[0].id == "enemy2"){
                   document.getElementById("enemy2").innerHTML = "";
                   this.points = this.points+1;
                   bullet.parentNode.innerHTML = "";
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
               }
@@ -411,23 +414,23 @@ $(document).ready(()=>{
               if (parent[0] !== undefined) {
                 if(parent[0].id == "enemy0"){
                   document.getElementById("enemy0").innerHTML = "";
-                  if(bullet.parentNode !== undefined && bullet.parentNode !== null){
-                    bullet.parentNode.innerHTML = "";
-                    clearInterval(enemy1.interval);
-                  }
+                  bullet.parentNode.innerHTML = "";
                   this.points = this.points+1;
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
                 else if (parent[0].id == "enemy1"){
                   document.getElementById("enemy1").innerHTML = "";
-                  this.points = this.points+1;
                   bullet.parentNode.innerHTML = "";
+                  this.points = this.points+1;
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
                 else if (parent[0].id == "enemy2"){
                   document.getElementById("enemy2").innerHTML = "";
                   this.points = this.points+1;
                   bullet.parentNode.innerHTML = "";
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
               }
@@ -435,39 +438,28 @@ $(document).ready(()=>{
               bullet.style.top = (bul.y+1) * 50 + "px";
               bullet.style.transform = 'rotate('+180+'deg)';
               bul.y = bul.y + 1;
-              if(bul.y < 12){
+              if(bul.y <= 12){
                 if(this.fireCheckCollision(bul.x, bul.y)){
                   var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
                   if(checkdmg == "block"){
                     if(bullet.parentNode !== undefined && bullet.parentNode !== null){
                       bullet.parentNode.innerHTML = "";
+                      this.fireBool = true;
+                      clearInterval(this.interval);
                     }
-                    this.fireBool = true;
-                    clearInterval(this.interval);
                   }
                   else{
-                    document.getElementById(bul.x+","+bul.y).children[0].className = "land";
                     if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                      document.getElementById(bul.x+","+bul.y).children[0].className = "land";
                       bullet.parentNode.innerHTML = "";
+                      this.fireBool = true;
+                      clearInterval(this.interval);
                     }
-                    this.fireBool = true;
-                    clearInterval(this.interval);
                   }
                 }
               }
-              else if(bul.y = 12){
-                if(document.getElementById(bul.x+","+bul.y).children[0].className == "eagle"){
-                  this.gameOver();
-                  clearInterval(this.interval);
-                }
-                document.getElementById(bul.x+","+bul.y).children[0].className = "land";
-                if(bullet.parentNode !== undefined && bullet.parentNode !== null){
-                  bullet.parentNode.innerHTML = "";
-                }
-                this.fireBool = true;
-                clearInterval(this.interval)
-              }
               else{
+                bullet.parentNode.innerHTML = "";
                 clearInterval(this.interval);
                 this.fireBool = true;
               }
@@ -500,23 +492,25 @@ $(document).ready(()=>{
               var destroy = ($(".boom").collision(".enemy"));
               var parent = destroy.parent();
               if (parent[0] !== undefined) {
-                console.log("next round");
                 if(parent[0].id == "enemy0"){
                   document.getElementById("enemy0").innerHTML = "";
                   bullet.parentNode.innerHTML = "";
                   this.points = this.points+1;
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
                 else if (parent[0].id == "enemy1"){
                   document.getElementById("enemy1").innerHTML = "";
                   this.points = this.points+1;
                   bullet.parentNode.innerHTML = "";
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
                 else if (parent[0].id == "enemy2"){
                   document.getElementById("enemy2").innerHTML = "";
                   this.points = this.points+1;
                   bullet.parentNode.innerHTML = "";
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
               }
@@ -529,23 +523,24 @@ $(document).ready(()=>{
                   if(checkdmg == "block"){
                     if(bullet.parentNode !== undefined && bullet.parentNode !== null){
                       bullet.parentNode.innerHTML = "";
+                      this.fireBool = true;
+                      clearInterval(this.interval);
                     }
-                    this.fireBool = true;
-                    clearInterval(this.interval);
                   }
                   else{
-                    document.getElementById(bul.x+","+bul.y).children[0].className = "land";
                     if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                      document.getElementById(bul.x+","+bul.y).children[0].className = "land";
                       bullet.parentNode.innerHTML = "";
+                      this.fireBool = true;
+                      clearInterval(this.interval);
                     }
-                    this.fireBool = true;
-                    clearInterval(this.interval);
                   }
                 }
               }
 
               else{
                 clearInterval(this.interval);
+                bullet.parentNode.innerHTML = "";
                 this.fireBool = true;
               }
             },250)
@@ -581,18 +576,21 @@ $(document).ready(()=>{
                   document.getElementById("enemy0").innerHTML = "";
                   bullet.parentNode.innerHTML = "";
                   this.points = this.points+1;
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
                 else if (parent[0].id == "enemy1"){
                   document.getElementById("enemy1").innerHTML = "";
                   this.points = this.points+1;
                   bullet.parentNode.innerHTML = "";
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
                 else if (parent[0].id == "enemy2"){
                   document.getElementById("enemy2").innerHTML = "";
                   this.points = this.points+1;
                   bullet.parentNode.innerHTML = "";
+                  clearInterval(this.interval);
                   this.nextRound();
                 }
               }
@@ -600,29 +598,30 @@ $(document).ready(()=>{
                 bullet.style.left = (bul.x+1) * 50 +"px";
                 bullet.style.top = (bul.y) * 50 + "px";
                 bul.x = bul.x + 1;
-                if(bul.x < 12){
+                if(bul.x <= 12){
                   if(this.fireCheckCollision(bul.x, bul.y)){
                     var checkdmg = document.getElementById(bul.x+","+bul.y).children[0].className;
                     if(checkdmg == "block"){
                       if(bullet.parentNode !== undefined && bullet.parentNode !== null){
                         bullet.parentNode.innerHTML = "";
+                        this.fireBool = true;
+                        clearInterval(this.interval);
                       }
-                      this.fireBool = true;
-                      clearInterval(this.interval);
                     }
                     else{
-                      document.getElementById(bul.x+","+bul.y).children[0].className = "land";
                       if(bullet.parentNode !== undefined && bullet.parentNode !== null){
+                        document.getElementById(bul.x+","+bul.y).children[0].className = "land";
                         bullet.parentNode.innerHTML = "";
+                        this.fireBool = true;
+                        clearInterval(this.interval);
                       }
-                      this.fireBool = true;
-                      clearInterval(this.interval);
                     }
                   }
                 }
                 else{
                   clearInterval(this.interval);
                   this.fireBool = true;
+                  bullet.parentNode.innerHTML = "";
                 }
               }
 
@@ -636,10 +635,11 @@ $(document).ready(()=>{
       for (var i = 1; i < 99999; i++){
         window.clearInterval(i);
       }
-      enemy0 =null;
-      enemy1 =null;
-      enemy2 =null;
-      window.location = "http://disco.fleo.se/YouWin";
+      // enemy0 =null;
+      // enemy1 =null;
+      // enemy2 =null;
+      // window.location = "http://disco.fleo.se/YouWin";
+
       // var win = document.querySelector("#game")
       // win.innerHTML = "";
       // win.className="win"
@@ -648,9 +648,9 @@ $(document).ready(()=>{
       // youwin.style.height = "100vh";
       // youwin.src = "http://disco.fleo.se/YouWin";
       // win.appendChild(youwin);
-      // var win = document.querySelector("#game")
-      // win.innerHTML = "";
-      // win.innerText = "YOU WIN"
+      var win = document.querySelector("#game")
+      win.innerHTML = "";
+      win.innerText = "YOU WIN"
     }
     ////////////////////////
     nextRound=() =>{
@@ -667,7 +667,7 @@ $(document).ready(()=>{
         enemy1.createEnemy();
         var enemy2 = new Enemy(12,this.respawn,2);
         enemy2.createEnemy();
-        if(this.respawn == 1){
+        if(this.respawn == 5){
           this.win();
         }
         enemy0.moveTank();
