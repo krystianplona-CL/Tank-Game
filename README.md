@@ -2,4 +2,4 @@
 Moving: arrows,
 Shoot: "a"
 
-Github Pages https://krystianplona-CL.github.io/Tank-Game/
+Github Pages https://krystianplona.github.io/Tank-Game/
